@@ -11,6 +11,7 @@ public:
 class Depot : public Location {
 public:
 	int depotId;
+	int vehicleCount;
 	int maxRouteDuration;
 	int maxVehicleLoad;
 };
