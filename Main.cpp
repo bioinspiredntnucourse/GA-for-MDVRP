@@ -14,4 +14,8 @@ int main() {
 
 	dep.depotId = 4;
 	dep.maxRouteDuration = 2;
+	std::cout << dep.depotId;
+
+	std::string exit;
+	std::cin >> exit;
 }
