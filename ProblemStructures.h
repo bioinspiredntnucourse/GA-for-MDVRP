@@ -1,5 +1,7 @@
 #pragma once
 #include "ProblemStructures.cpp"
+#include <vector>
+
 
 class Location {
 public:
@@ -14,8 +16,15 @@ public:
 };
 
 class Customer : public Location {
-public:
+public:		
 	int customerNumber;
 	int serviceDuration;
 	int demand;
+};
+
+
+class Problem {
+public:
+	std::vector<Depot> depots;
+	std::vector<Customer> Customers;
 };
