@@ -12,7 +12,7 @@ class Depot : public Location {
 public:
 	int depotId;
 	int vehicleCount;
-	int maxRouteDuration;
+	int maxRouteRange;
 	int maxVehicleCapacity;
 
 	~Depot() { depotId = NULL; vehicleCount = NULL; maxRouteDuration = NULL; maxVehicleCapacity = NULL; };
@@ -21,7 +21,7 @@ public:
 class Customer : public Location {
 public:		
 	int customerNumber;
-	int serviceDuration;
+	int serviceRange;
 	int demand;
 };
 

@@ -18,8 +18,6 @@ int main() {
 	dep.maxRouteDuration = 2;
 	std::cout << dep.depotId << std::endl;
 
-
-
 	std::string exit;
 	std::cin >> exit;
 
