@@ -115,76 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gnuplot-iostream-master\example-data-1d.cc" />
-    <ClCompile Include="gnuplot-iostream-master\example-data-2d.cc" />
-    <ClCompile Include="gnuplot-iostream-master\example-interactive.cc" />
-    <ClCompile Include="gnuplot-iostream-master\example-misc.cc" />
-    <ClCompile Include="gnuplot-iostream-master\legacy\examples-blitz.cc" />
-    <ClCompile Include="gnuplot-iostream-master\legacy\examples-framework.cc" />
-    <ClCompile Include="gnuplot-iostream-master\legacy\examples-interactive.cc" />
-    <ClCompile Include="gnuplot-iostream-master\legacy\examples.cc" />
-    <ClCompile Include="gnuplot-iostream-master\test-assert-depth-colmajor.cc" />
-    <ClCompile Include="gnuplot-iostream-master\test-assert-depth.cc" />
-    <ClCompile Include="gnuplot-iostream-master\test-empty.cc" />
-    <ClCompile Include="gnuplot-iostream-master\test-noncopyable.cc" />
-    <ClCompile Include="gnuplot-iostream-master\test-outputs.cc" />
+    <ClCompile Include="output.cpp" />
     <ClCompile Include="ProblemStructures.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gnuplot-iostream-master\gnuplot-iostream.h" />
+    <ClInclude Include="output.h" />
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="solutionInstance.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="gnuplot-iostream-master\unittest-output-good\ai-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\armacol-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\armamat-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\armamat-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\bi-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz1d,vd-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz1d-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d cols-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d cols-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d,vd-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d,vvi-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d,vvi-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d_tup-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\blitz2d_tup-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\boost_tie{ai,bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\btup{vd,stup{vi,btup{vf},vi},vd}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\pair{&amp;si,&amp;bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\pair{ai,bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\pair{vf,btup{vd,pair{vi,vi},vf}}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\pair{vf,stup{vd,pair{vi,vi},vf}}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\si-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\std_fwd{ai,bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\std_tie{ai,bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\tie{si,bi}-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vd,vi,bi-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vd-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vf-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vi16-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vi32-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vi8-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vu16-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vu32-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vu8-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd,vvi,vvvi-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd,vvi,vvvi-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd,vvi-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd,vvi-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd-Mode1DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvd-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvvi cols-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvvi cols-Mode2DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvvp-Mode2D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\vvvp-Mode2DUnwrap.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\v_bt-Mode1D.bin" />
-    <None Include="gnuplot-iostream-master\unittest-output-good\v_st-Mode1D.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
