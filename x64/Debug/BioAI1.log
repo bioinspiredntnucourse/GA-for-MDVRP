@@ -1,0 +1,20 @@
+﻿  solutionInstance.cpp
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(8): error C2679: binary '=': no operator found which takes a right-hand operand of type 'int' (or there is no acceptable conversion)
+  c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\problemstructures.h(19): note: could be 'Depot &Depot::operator =(const Depot &)'
+  c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(8): note: while trying to match the argument list '(Depot, int)'
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(30): error C3867: 'std::vector<Customer,std::allocator<_Ty>>::empty': non-standard syntax; use '&' to create a pointer to member
+          with
+          [
+              _Ty=Customer
+          ]
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(60): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(61): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(65): error C2352: 'Vehicle::vehicleAvailable': illegal call of non-static member function
+  c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(29): note: see declaration of 'Vehicle::vehicleAvailable'
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(66): error C2661: 'std::vector<Customer,std::allocator<_Ty>>::push_back': no overloaded function takes 0 arguments
+          with
+          [
+              _Ty=Customer
+          ]
+c:\users\eirik\onedrive - ntnu\school\bioai\oving1\ga-for-mdvrp\solutioninstance.cpp(67): error C2143: syntax error: missing ';' before '}'

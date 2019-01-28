@@ -24,12 +24,24 @@
     <ClCompile Include="solutionInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProblemLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProblemLoaderTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProblemStructures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="solutionInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProblemLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProblemLoaderTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -115,11 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ProblemLoader.cpp" />
+    <ClCompile Include="ProblemLoaderTest.cpp" />
     <ClCompile Include="ProblemStructures.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ProblemLoader.h" />
+    <ClInclude Include="ProblemLoaderTest.h" />
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="solutionInstance.h" />
   </ItemGroup>
