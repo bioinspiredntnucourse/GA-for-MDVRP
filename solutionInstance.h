@@ -6,15 +6,16 @@
 class Vehicle {
 public:
 	int id;
+	int load;
 	int capacity;
 	Depot originDepot;
-	int maxRouteDuration;
+	int routeRange;
+	int maxRouteRange;
 	std::vector<Customer> route;
 
-	Vehicle();
-	Vehicle(int id, int maxRouteDuration, int capacity, Depot originDepot);
+	Vehicle(int id, int maxRouteRange, int capacity, Depot originDepot);
 	
-	bool vehicleAvailable(Vehicle vehicle, Customer customer);
+	bool vehicleAvailable(Customer customer);
 	
 	~Vehicle();
 };
@@ -29,6 +30,6 @@ public:
 
 
 
-//SolutionInstance generateSolutionInstance();
+float distanceBetweenCoordinates(int x1, int y1, int x2, int y2);
 
 void testRand();
