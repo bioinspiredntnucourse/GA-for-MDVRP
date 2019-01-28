@@ -6,5 +6,10 @@
 using namespace std;
 
 void ProblemLoaderTest() {
-	cout << "hei";
+	Problem p = LoadProblem("data_files\\Data Files\\p01");
+
+	ProblemToStream(p, cout);
+
+	string ds;
+	cin >> ds;
 }

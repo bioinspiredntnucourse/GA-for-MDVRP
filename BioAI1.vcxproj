@@ -125,6 +125,7 @@
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />
     <ClInclude Include="ProblemStructures.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="solutionInstance.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
