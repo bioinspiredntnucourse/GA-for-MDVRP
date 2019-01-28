@@ -1,6 +1,8 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include "ProblemStructures.h"
+#include "solutionInstance.h"
 
 
 
@@ -14,8 +16,12 @@ int main() {
 
 	dep.depotId = 4;
 	dep.maxRouteDuration = 2;
-	std::cout << dep.depotId;
+	std::cout << dep.depotId << std::endl;
+
+
 
 	std::string exit;
 	std::cin >> exit;
+
+	return 0;
 }

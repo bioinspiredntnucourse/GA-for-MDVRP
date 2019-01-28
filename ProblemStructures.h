@@ -27,5 +27,5 @@ public:
 class Problem {
 public:
 	std::vector<Depot> depots;
-	std::vector<Customer> Customers;
+	std::vector<Customer> customers;
 };
