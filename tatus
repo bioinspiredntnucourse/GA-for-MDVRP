@@ -1,0 +1,104 @@
+[33mcommit dcaf9df532205e073989b9e93d2460cb1df22324[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 16:23:58 2019 +0100
+
+    remove unwanted files from repo
+
+[33mcommit 0cc411ab124eedca0c9325551e639a4a895249fb[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 16:19:02 2019 +0100
+
+    add data files
+
+[33mcommit 0c6a24170f280cc081bbb49ec8698d2680ea8f47[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 16:17:18 2019 +0100
+
+    add file loading of problem
+
+[33mcommit 4fa79292267c603917bff22c22ce8e5430e32b97[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 16:14:12 2019 +0100
+
+    add gitignore
+
+[33mcommit 1c52c91c1aa51020419528dc5b64593bd537ea88[m
+Merge: 6a83f38 99d0b75
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 14:40:00 2019 +0100
+
+    Merge branch 'master' of https://github.com/eirik1502/GA-for-MDVRP
+
+[33mcommit 99d0b75bd8fc1f87a858f8d2a2632c44840fac02[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Mon Jan 28 14:39:17 2019 +0100
+
+    Push updated version
+
+[33mcommit 6a83f383c4a6821d56513cebf75d06a164cbbf89[m
+Merge: a7d03dd bb17440
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 14:35:25 2019 +0100
+
+    Merge branch 'master' of https://github.com/eirik1502/GA-for-MDVRP
+
+[33mcommit a7d03dd7cc71f90e3d069285d31fe93cbb613da6[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Mon Jan 28 14:35:21 2019 +0100
+
+    commit after update and trying to run a test
+
+[33mcommit bb174402210f73fcdc571e5cd6e623852b067f8f[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Mon Jan 28 13:52:39 2019 +0100
+
+    Changed duration to range part 2
+
+[33mcommit daf963dd84103d9e51cf077ee2d500f00c0d3f63[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Mon Jan 28 13:51:42 2019 +0100
+
+    Changed duration to range
+
+[33mcommit f5de5ecd2789646bb81c6a8784a2e4c9342002f8[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Mon Jan 28 13:08:38 2019 +0100
+
+    Added classes and class constructors
+
+[33mcommit a20afc6234b31c2ade9675365c1e7e8c50c06561[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Mon Jan 28 09:53:16 2019 +0100
+
+    Add start to solutionInstace file
+
+[33mcommit 39c9813d121d03e5e073dca1aab539ae38e0496f[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Fri Jan 25 12:51:15 2019 +0100
+
+    add vehicle count
+
+[33mcommit ac04bbb7df0381e17cef42aadbbd6e8176f974cd[m
+Merge: b2e0351 abc4dfc
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Fri Jan 25 12:38:10 2019 +0100
+
+    Merge branch 'master' of https://github.com/eirik1502/GA-for-MDVRP
+
+[33mcommit b2e03515a5ad5a4f642c1a23922d12fb070f9593[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Fri Jan 25 12:37:53 2019 +0100
+
+    add problem class
+
+[33mcommit abc4dfcf66f30ad6624ab4dc303583795038047a[m
+Author: AndreasLTeigen <andrealt@stud.ntnu.no>
+Date:   Fri Jan 25 12:26:50 2019 +0100
+
+    Add print function
+
+[33mcommit 193fb165b71834878da671a02c6834c710d1bd94[m
+Author: Eirik Skjaerseth <eirik1502@gmail.com>
+Date:   Fri Jan 25 12:13:09 2019 +0100
+
+    add probem representing classes

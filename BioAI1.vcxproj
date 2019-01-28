@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="ProblemLoader.cpp" />
     <ClCompile Include="ProblemLoaderTest.cpp" />
+    <ClCompile Include="output.cpp" />
     <ClCompile Include="ProblemStructures.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
@@ -124,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />
+    <ClInclude Include="output.h" />
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="solutionInstance.h" />

@@ -6,6 +6,7 @@
 
 #include "ProblemLoaderTest.h"
 
+#include "output.h"
 
 int main() {
 	/*
@@ -50,6 +51,8 @@ int main() {
 	testProblem.depots.push_back(testDepot);
 	testProblem.customers.push_back(testCustomer1);
 	testProblem.customers.push_back(testCustomer2);
+
+	makeSolutionFile();
 
 	std::string exit;
 	std::cin >> exit;
