@@ -1,10 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "gunplot-iostream.h"
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
-
-
 
 int main() {
 	Customer cust;
