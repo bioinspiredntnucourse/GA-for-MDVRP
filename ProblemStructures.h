@@ -21,7 +21,7 @@ public:
 class Customer : public Location {
 public:		
 	int customerNumber;
-	int serviceRange;
+	int serviceDuration;
 	int demand;
 };
 

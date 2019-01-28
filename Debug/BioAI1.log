@@ -1,4 +1,4 @@
-﻿  Main.cpp
-  solutionInstance.cpp
-  Generating Code...
+﻿  solutionInstance.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(22): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   BioAI1.vcxproj -> C:\Users\and_t\Documents\Skole\Bio-Inspirert kunstig intelligens\Prosjekt1\GA-for-MDVRP\Debug\BioAI1.exe
