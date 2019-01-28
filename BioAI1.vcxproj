@@ -121,6 +121,7 @@
     <ClCompile Include="ProblemStructures.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
+    <ClCompile Include="ProblemSolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProblemLoader.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="solutionInstance.h" />
+    <ClInclude Include="ProblemSolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
