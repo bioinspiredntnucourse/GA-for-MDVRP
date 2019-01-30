@@ -4,4 +4,3 @@
 #include <string>
 
 Problem LoadProblem(string filename);
-

@@ -2,16 +2,7 @@
 
 
 
-ProblemSolver::ProblemSolver()
-{
-}
-
-
-ProblemSolver::~ProblemSolver()
-{
-}
-
-void ProblemSolver::SolveMdvrpWithGa(Problem &problem) {
+void SolveMdvrpWithGa(Problem &problem) {
 	//generate initial random solutions
 
 	//evaluate solutions
