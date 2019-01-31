@@ -16,37 +16,43 @@ public:
 	inline void SolveMdvrpWithGa(Problem &problem) {
 
 		//declare
-		vector<SolutionInstance> population = vector<SolutionInstance>(populationSize);
-		vector<SolutionInstance> newParents = vector<SolutionInstance>(populationSize);
-		int parentCount;
+		vector<SolutionInstance*> population = vector<SolutionInstance*>(populationSize);
 		vector<float> evaluations = vector<float>(populationSize);
-
-
+		
 		//start
 		InitializePopulation(&population);
 		Evaluate(&population, &evaluations);
 
+		int i = 0;
 		while (running) {
-			parentCount = SelectParents(&population, &newParents);
-			Crossover()
+			PopulationCrossover(&population, &evaluations);
+			PopulationMutate(&population, &evaluations);
+			SelectNextGeneration(&population, &evaluations);
+
+			if (i++ >= 100)
+				running = false;
 		}
 	}
 
 	//GA flow
-	void InitializePopulation(vector<SolutionInstance>* emptyPopulation);
+	void InitializePopulation(vector<SolutionInstance*> *population);
 
-	//
-	int SelectParents(vector<SolutionInstance>* instances, vector<SolutionInstance>* parents);
-	SolutionInstance Crossover(SolutionInstance instance1, SolutionInstance instance2);
+	//choose individuals and cross them
+	void PopulationCrossover(vector<SolutionInstance*> *population, vector<float>* evaluations);
+	//performing a crossover on a single individul
+	SolutionInstance* CrossoverMutation(SolutionInstance* instance);
 
-	vector<SolutionInstance> SelectMutationTargets(vector<SolutionInstance> instances);
-	SolutionInstance Mutate(SolutionInstance instnace);
+	//choose individuals and mutate them
+	vector<SolutionInstance> PopulationMutate(vector<SolutionInstance*> *population, vector<float>* evaluations);
+	SolutionInstance* Mutate(SolutionInstance* instance);
 
 	//fill "evaluations" based on fitness of "instances"
-	void Evaluate(vector<SolutionInstance>* instances, vector<float>* evaluations);
+	void Evaluate(vector<SolutionInstance*> *population, vector<float>* evaluations);
 
-	vector<SolutionInstance> SelectNextGeneration(vector<SolutionInstance> instances, vector<float> evaluations);
+	//manipulate the population given the evaluations
+	void SelectNextGeneration(vector<SolutionInstance*> *population, vector<float>* evaluations);
+
 
 	//utilities
-	SolutionInstance GenerateRandomSolution(vector<Customer> customers);
+	SolutionInstance* GenerateRandomSolution(vector<Customer> customers);
 };
