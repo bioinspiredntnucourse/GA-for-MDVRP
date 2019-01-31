@@ -12,7 +12,7 @@
 
 #include "output.h"
 
-
+#include "GraphicsTest.h"
 
 
 int main() {
@@ -67,23 +67,7 @@ int main() {
 
 	//ProblemLoaderTest();
 
-	std::vector<float> floats = { 1, 4, 5, 2, 3, 10 };
-
-	//convert to string
-	std::ostringstream oss;
-
-	if (!floats.empty())
-	{
-		// Convert all but the last element to avoid a trailing ","
-		std::copy(floats.begin(), floats.end() - 1,
-			std::ostream_iterator<int>(oss, ","));
-
-		// Now add the last element with no delimiter
-		oss << floats.back();
-	}
-	string strvals = oss.str();
-	string command = "py ./python/test.py " + strvals; // +"p01" + " p01.res";
-	system(command.c_str());
+	GraphicsTest();
 
 	string s;
 	cin >> s;

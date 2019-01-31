@@ -10,6 +10,11 @@ inline void DrawSolution(string problemFilename, string solutionFilename) {
 	string python = "py";
 	string pyinput = problemFilename + " " + solutionFilename;
 
-	string command = python + " " + pypath + pyfile + " " + pyinput;
+	string initCommand = "start /b CMD.exe /k";
+	string terminating = "";
+
+	string command = initCommand + " " + python + " " + pypath + pyfile + " " + pyinput;
+	//command = "ls -l &";
+	cout << command << endl;
 	system(command.c_str());
 }

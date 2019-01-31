@@ -15,7 +15,7 @@ def main():
     inputlength = 2
 
     if len(sys.argv) != inputlength + 1:
-        print("no given input")
+        print("invalid input")
         exit(-1)
 
     #look in the data files folders if only a filename is given
