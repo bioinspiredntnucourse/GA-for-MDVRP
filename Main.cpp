@@ -51,14 +51,14 @@ int main() {
 	testProblem.depots.push_back(testDepot);
 	testProblem.customers.push_back(testCustomer1);
 	testProblem.customers.push_back(testCustomer2);
+	*/
+
+	//ProblemLoaderTest();
 
 	makeSolutionFile();
 
 	std::string exit;
 	std::cin >> exit;
-	*/
-
-	ProblemLoaderTest();
 
 	return 0;
 }

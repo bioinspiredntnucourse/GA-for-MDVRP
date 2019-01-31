@@ -17,6 +17,7 @@ Vehicle::~Vehicle() {
 	capacity = NULL;
 	load = NULL;
 	delete &originDepot;
+	delete &endDepot;
 	routeRange = NULL;
 	maxRouteRange = NULL;
 	for (int i = 0; i < route.size(); i++) {
@@ -56,6 +57,8 @@ bool Vehicle::vehicleAvailable(Customer customer) {
 }
 
 SolutionInstance::SolutionInstance(std::vector<Depot> depots){
+
+	fitness = -1;
 
 	int i, j, numDepots, vehicleId, depotVehicleCount, depotMaxRouteRange,
 		depotMaxVehicleCapacity;

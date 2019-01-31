@@ -23,6 +23,7 @@ public:
 class SolutionInstance {
 public:
 	std::vector<Vehicle> vehicleList;
+	float fitness;
 
 	SolutionInstance(std::vector<Depot> depots); //Generate structure, without solution
 	void generateRandomSolution(std::vector<Customer> customers);

@@ -1,7 +1,15 @@
-﻿  output.cpp
+﻿  ProblemLoader.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.cpp(37): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.cpp(54): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.cpp(69): warning C4018: '<': signed/unsigned mismatch
+  ProblemLoaderTest.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  ProblemStructures.cpp
   Main.cpp
   solutionInstance.cpp
 c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(22): warning C4018: '<': signed/unsigned mismatch
 c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ProblemSolver.cpp
   Generating Code...
   BioAI1.vcxproj -> C:\Users\and_t\Documents\Skole\Bio-Inspirert kunstig intelligens\Prosjekt1\GA-for-MDVRP\Debug\BioAI1.exe
