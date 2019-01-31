@@ -124,6 +124,7 @@
     <ClCompile Include="ProblemSolver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />
     <ClInclude Include="output.h" />
