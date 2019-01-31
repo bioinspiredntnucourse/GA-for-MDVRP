@@ -3,35 +3,40 @@
 #include <iostream>
 #include <cmath>
 
-Vehicle::Vehicle(int id, int maxRouteRange, int capacity, Depot originDepot) {
-	id = id;
-	load = 0;
-	capacity = capacity;
-	originDepot = originDepot;
-	routeRange = 0;
-	maxRouteRange = maxRouteRange;
+#include <string>
+
+Vehicle::Vehicle(int id, int capacity, Depot originDepot) {
+	this->id = id;
+	this->load = 0;
+	this->capacity = capacity;
+	this->originDepot = originDepot;
+	this->routeRange = 0;
 }
 
 Vehicle::~Vehicle() {
-	id = NULL;
-	capacity = NULL;
-	load = NULL;
-	delete &originDepot;
-	delete &endDepot;
-	routeRange = NULL;
-	maxRouteRange = NULL;
-	for (int i = 0; i < route.size(); i++) {
-		Customer* ptr = &route[i];
+	this->id = NULL;
+	this->capacity = NULL;
+	this->load = NULL;
+	//delete &originDepot;
+	//delete &endDepot;
+	this->routeRange = NULL;
+	this->maxRouteRange = NULL;
+	for (int i = 0; i < this->route.size(); i++) {
+		Customer* ptr = &this->route[i];
 		delete ptr;
 	}
 }
 
 bool Vehicle::vehicleAvailable(Customer customer) {
 	if (this->load + customer.demand > this->capacity) {
-
 		return false;
-
 	}
+	else {
+		return true;
+	}
+}
+
+float Vehicle::calculateDistance2Customer(Customer customer) {
 
 	int x1, y1, x2, y2;
 	float extraDistance;
@@ -47,18 +52,28 @@ bool Vehicle::vehicleAvailable(Customer customer) {
 		x1 = this->route.back().x;
 		y1 = this->route.back().y;
 	}
-
 	extraDistance = distanceBetweenCoordinates(x1, y1, x2, y2);
-
-	if (this->routeRange + extraDistance > maxRouteRange) {
-		return false;
-	}
-	return true;
+	return extraDistance;
 }
 
-SolutionInstance::SolutionInstance(std::vector<Depot> depots){
+void Vehicle::addCustomer2VehicleRoute(Customer customer) {
+	float extraDistance;
 
-	fitness = -1;
+	extraDistance = this->calculateDistance2Customer(customer);
+	std::cout << extraDistance << std::endl;
+	this->route.push_back(customer);
+	this->routeRange = extraDistance + this->routeRange;
+	this->load = customer.demand + this->load;
+}
+
+SolutionInstance::SolutionInstance(Problem problem){
+
+	std::vector<Depot> depots;
+	depots = problem.depots;
+
+	int l;
+
+	this->fitness = -1;
 
 	int i, j, numDepots, vehicleId, depotVehicleCount, depotMaxRouteRange,
 		depotMaxVehicleCapacity;
@@ -68,21 +83,22 @@ SolutionInstance::SolutionInstance(std::vector<Depot> depots){
 	for (i = 0; i < numDepots; i++) {
 
 		depotVehicleCount = depots[i].vehicleCount;
-		depotMaxRouteRange = depots[i].maxRouteRange;
 		depotMaxVehicleCapacity = depots[i].maxVehicleCapacity;
 
 		for (j = 0; j < depotVehicleCount; j++) {
-
-			Vehicle* vehicle = new Vehicle(vehicleId, depotMaxRouteRange, depotMaxVehicleCapacity, depots[i]);
-			vehicleList.push_back(*vehicle);
+			Vehicle* vehicle = new Vehicle(vehicleId, depotMaxVehicleCapacity, depots[i]);
+			this->vehicleList.push_back(*vehicle);
 			vehicleId++;
 		}
 	}
 }
 
-void SolutionInstance::generateRandomSolution(std::vector<Customer> customers) {
+void SolutionInstance::generateRandomSolution(Problem problem) {
+	std::vector<Customer> customers;
+	customers = problem.customers;
+
 	bool vehicleAvailable;
-	int i, customerCount, vehicleCount, randomVehicleNumber;
+	int i, j, customerCount, vehicleCount, randomVehicleNumber, randomDepotNumber;
 	customerCount = customers.size();
 	vehicleCount = vehicleList.size();
 
@@ -92,12 +108,18 @@ void SolutionInstance::generateRandomSolution(std::vector<Customer> customers) {
 		vehicleAvailable = vehicleList[randomVehicleNumber].vehicleAvailable(customers[i]);
 
 		if (vehicleAvailable) {
-			vehicleList[randomVehicleNumber].route.push_back(customers[i]);
+			vehicleList[randomVehicleNumber].addCustomer2VehicleRoute(customers[i]);
 		}
 		else {
 			i--;
 		}
 	}
+
+	for (j = 0; j < vehicleList.size(); j++) {
+		randomDepotNumber = rand() % problem.depots.size();
+		vehicleList[j].endDepot = problem.depots[randomDepotNumber];
+	}
+	
 }
 
 float distanceBetweenCoordinates(int x1, int y1, int x2, int y2) {

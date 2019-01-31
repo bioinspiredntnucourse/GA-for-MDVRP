@@ -3,6 +3,7 @@
 #include <string>
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
+#include "ProblemLoader.h"
 
 #include "ProblemLoaderTest.h"
 
@@ -53,9 +54,14 @@ int main() {
 	testProblem.customers.push_back(testCustomer2);
 	*/
 
-	//ProblemLoaderTest();
+	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
-	makeSolutionFile();
+	//ProblemToStream(p, cout);
+
+	SolutionInstance sol(p);
+	sol.generateRandomSolution(p);
+
+	makeSolutionFile(sol, p);
 
 	std::string exit;
 	std::cin >> exit;
