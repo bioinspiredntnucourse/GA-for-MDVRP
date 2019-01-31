@@ -8,24 +8,28 @@ public:
 	int id;
 	int load;
 	int capacity;
+	Depot endDepot;
 	Depot originDepot;
 	int routeRange;
 	int maxRouteRange;
 	std::vector<Customer> route;
 
-	Vehicle(int id, int maxRouteRange, int capacity, Depot originDepot);
+	Vehicle(int id, int capacity, Depot originDepot);
 	
 	bool vehicleAvailable(Customer customer);
-	
+	float calculateDistance2Customer(Customer customer);
+	void addCustomer2VehicleRoute(Customer customer);
+
 	~Vehicle();
 };
 
 class SolutionInstance {
 public:
 	std::vector<Vehicle> vehicleList;
+	float fitness;
 
-	SolutionInstance(std::vector<Depot> depots); //Generate structure, without solution
-	void generateRandomSolution(std::vector<Customer> customers);
+	SolutionInstance(Problem problem); //Generate structure, without solution
+	void generateRandomSolution(Problem problem);
 };
 
 

@@ -7,6 +7,7 @@
 
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
+#include "ProblemLoader.h"
 
 #include "ProblemLoaderTest.h"
 
@@ -58,19 +59,30 @@ int main() {
 	testProblem.depots.push_back(testDepot);
 	testProblem.customers.push_back(testCustomer1);
 	testProblem.customers.push_back(testCustomer2);
+	*/
 
-	makeSolutionFile();
+	Problem p = LoadProblem("data_files\\Data Files\\p01");
+
+	//ProblemToStream(p, cout);
+
+	SolutionInstance sol(p);
+	sol.generateRandomSolution(p);
+
+	makeSolutionFile(sol, p);
+
+	string problemfile = "\"./data_files/Data Files/p01\"";
+	string solutionfile = "./solutionFile.txt";
+
+	DrawSolution(problemfile, solutionfile);
+
+	//ProblemLoaderTest();
+	//GraphicsTest();
+
 
 	std::string exit;
 	std::cin >> exit;
-	*/
 
-	//ProblemLoaderTest();
 
-	GraphicsTest();
-
-	string s;
-	cin >> s;
 
 	return 0;
 }
