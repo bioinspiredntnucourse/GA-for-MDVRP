@@ -58,6 +58,7 @@ Problem LoadProblem(string filename) {
 		lineStream >> customerId >> xCoord >> yCoord >> serviceDuration >> customerDemand;
 
 		customers[i].customerNumber = customerId;
+		customers[i].id = customerId;
 		customers[i].x = xCoord;
 		customers[i].y = yCoord;
 		customers[i].demand = customerDemand;
@@ -65,19 +66,21 @@ Problem LoadProblem(string filename) {
 	}
 
 	//the last lines also contains depot info
-	int notUsed;
+	int fileid;
 	for (unsigned int i = 0; i < depotCount; ++i) {
 		getline(inFile, line); //retrieving next line, and only using some of the data in it
 		std::istringstream lineStream(line);
 
-		lineStream >> notUsed >> xCoord >> yCoord;
+		lineStream >> fileid >> xCoord >> yCoord;
 
+		depots[i].id = fileid;
 		depots[i].x = xCoord;
 		depots[i].y = yCoord;
 	}
 	inFile.close();
 
 	Problem p;
+	p.filename = filename;
 	p.customers = customers;
 	p.depots = depots;
 	return p;
