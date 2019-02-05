@@ -6,14 +6,10 @@
 #include <iterator>
 
 #include "ProblemStructures.h"
-#include "solutionInstance.h"
 #include "ProblemLoader.h"
+//#include "output.h"
 
-#include "ProblemLoaderTest.h"
-
-#include "output.h"
-
-#include "GraphicsTest.h"
+#include "ProblemSolver.h"
 
 
 int main() {
@@ -61,6 +57,7 @@ int main() {
 	testProblem.customers.push_back(testCustomer2);
 	*/
 
+	/*
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	//ProblemToStream(p, cout);
@@ -75,8 +72,20 @@ int main() {
 
 	DrawSolution(problemfile, solutionfile);
 
-	//ProblemLoaderTest();
-	//GraphicsTest();
+
+
+
+
+
+	*/
+
+
+	Problem p = LoadProblem("data_files\\Data Files\\p01");
+
+	ProblemSolver ps;
+	ps.populationSize = 4;
+	ps.SolveMdvrpWithGa(&p);
+
 
 
 	std::string exit;
