@@ -1,3 +1,5 @@
+#pragma once
+
 #include "solutionInstance.h"
 #include <stdlib.h>
 #include <iostream>

@@ -1,16 +1,40 @@
 #include "ProblemSolver.h"
+#include "solutionInstance.h"
 
 
 
-void SolveMdvrpWithGa(Problem &problem) {
-	//generate initial random solutions
+void ProblemSolver::InitializePopulation(vector<SolutionInstance*> *population) {
+	for (unsigned int i = 0; i < populationSize; i++) {
+		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
+		SolutionInstance solinst(*this->problem);
+		solinst.generateRandomSolution(*this->problem);
 
-	//evaluate solutions
+		population->push_back(&solinst);
+	}
+}
 
-	//crossover solutions
-	//mutate solutions
 
-	//generate new random solutions and more
+void ProblemSolver::PopulationCrossover(vector<SolutionInstance*> *population, vector<float>* evaluations) {
 
-	//repeat
+}
+
+SolutionInstance* ProblemSolver::CrossoverMutation(SolutionInstance* instance) {
+	SolutionInstance si(*this->problem);
+	return &si;
+}
+
+
+void ProblemSolver::PopulationMutate(vector<SolutionInstance*> *population, vector<float>* evaluations) {
+
+}
+
+
+
+void ProblemSolver::Evaluate(vector<SolutionInstance*> *population, vector<float>* evaluations) {
+
+}
+
+
+void ProblemSolver::SelectNextGeneration(vector<SolutionInstance*> *population, vector<float>* evaluations) {
+
 }
