@@ -6,8 +6,9 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "Graphics.h"
 
-void writeToFile(std::string content, std::string filename){
+inline void writeToFile(std::string content, std::string filename){
 	std::cout << "Writing solution to file." << std::endl;
 	ofstream myfile;
 	myfile.open(filename);
@@ -15,7 +16,7 @@ void writeToFile(std::string content, std::string filename){
 	myfile.close();
 }
 
-void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem) {
+inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem, string filename) {
 	std::ostringstream os;
 	os << solutionInstance.fitness << "\n";
 	
@@ -39,5 +40,11 @@ void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem) {
 	}
 	std::string s = os.str();
 	std::cout << s;
-	writeToFile(s, "solutionFile.txt");
+	writeToFile(s, filename);
+}
+
+inline void DrawSolutionInstance(Problem &problem, SolutionInstance &solutionInstance) {
+	string filename = "./generatedToDraw.res";
+	makeSolutionFile(solutionInstance, problem, filename);
+	DrawSolution("\"" + problem.filename + "\"", filename);
 }
