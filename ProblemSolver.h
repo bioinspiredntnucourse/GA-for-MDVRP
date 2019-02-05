@@ -2,6 +2,7 @@
 
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
+#include "output.h"
 
 #include <iostream>
 
@@ -22,16 +23,19 @@ public:
 		this->problem = problem;
 
 		//declare
-		vector<SolutionInstance*> population = vector<SolutionInstance*>(populationSize);
-		vector<float> evaluations = vector<float>(populationSize);
+		vector<SolutionInstance*> population = vector<SolutionInstance*>();
+		vector<SolutionInstance*> parents = vector<SolutionInstance*>();
+		vector<float> evaluations = vector<float>();
 
 		
 		//start
 		InitializePopulation(&population);
 
 		for (unsigned int i = 0; i < population.size(); i++) {
-			cout << population[i]->fitness;
+			cout << population[i]->fitness << endl;
+			DrawSolutionInstance(*this->problem, *population[i]);
 		}
+		deleteSolutionInstances(&population);
 
 		return;
 
@@ -48,6 +52,11 @@ public:
 		}
 
 
+	}
+	void deleteSolutionInstances(vector<SolutionInstance*>* instances) {
+		for (unsigned int i = 0; i < instances->size(); i++) {
+			delete instances->at(i);
+		}
 	}
 
 	//GA flow
