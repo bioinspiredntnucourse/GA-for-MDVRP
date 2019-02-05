@@ -4,6 +4,8 @@
 
 #include <sstream>
 #include <iterator>
+#include <ctime>
+#include <cstdlib>
 
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
@@ -18,6 +20,7 @@
 
 
 int main() {
+	srand(time(NULL));
 	/*
 	Customer cust;
 	Depot dep;

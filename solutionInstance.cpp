@@ -96,7 +96,6 @@ SolutionInstance::SolutionInstance(Problem problem){
 }
 
 void SolutionInstance::generateRandomSolution(Problem problem) {
-	srand(time(NULL));
 	std::vector<Customer> customers;
 	customers = problem.customers;
 
