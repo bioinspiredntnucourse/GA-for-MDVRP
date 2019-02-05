@@ -26,9 +26,9 @@ void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem) {
 			if (solutionInstance.vehicleList[j].originDepot.depotId == i) {
 				os << i << " "
 					<< k << " "
-					<< solutionInstance.vehicleList[j].routeRange << " "
-					<< solutionInstance.vehicleList[j].load << " "
-					<< solutionInstance.vehicleList[j].endDepot.id << "  ";
+					<< solutionInstance.vehicleList[j].routeRange << "   "
+					<< solutionInstance.vehicleList[j].load << "   "
+					<< solutionInstance.vehicleList[j].endDepot.depotId << "    ";
 				for (l = 0; l < solutionInstance.vehicleList[j].route.size(); l++) {
 					os << solutionInstance.vehicleList[j].route[l].customerNumber << " ";
 				}

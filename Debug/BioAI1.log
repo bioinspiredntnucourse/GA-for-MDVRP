@@ -1,8 +1,6 @@
-﻿  solutionInstance.cpp
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(24): warning C4018: '<': signed/unsigned mismatch
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(65): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(74): warning C4101: 'l': unreferenced local variable
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(78): warning C4101: 'depotMaxRouteRange': unreferenced local variable
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(118): warning C4018: '<': signed/unsigned mismatch
-c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(127): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  BioAI1.vcxproj -> C:\Users\and_t\Documents\Skole\Bio-Inspirert kunstig intelligens\Prosjekt1\GA-for-MDVRP\Debug\BioAI1.exe
+﻿  Main.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemloader.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(23): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(25): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(32): warning C4018: '<': signed/unsigned mismatch
+  BioAI1.vcxproj -> C:\Users\and_t\Documents\Skole\Bio-Inspirert Kunstig Intelligens\Prosjekt1\GA-for-MDVRP\Debug\BioAI1.exe

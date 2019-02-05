@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 #include <string>
 
@@ -53,6 +55,7 @@ float Vehicle::calculateDistance2Customer(Customer customer) {
 		y1 = this->route.back().y;
 	}
 	extraDistance = distanceBetweenCoordinates(x1, y1, x2, y2);
+	extraDistance = roundf(extraDistance* 100) / 100;
 	return extraDistance;
 }
 
@@ -60,7 +63,6 @@ void Vehicle::addCustomer2VehicleRoute(Customer customer) {
 	float extraDistance;
 
 	extraDistance = this->calculateDistance2Customer(customer);
-	std::cout << extraDistance << std::endl;
 	this->route.push_back(customer);
 	this->routeRange = extraDistance + this->routeRange;
 	this->load = customer.demand + this->load;
@@ -94,6 +96,7 @@ SolutionInstance::SolutionInstance(Problem problem){
 }
 
 void SolutionInstance::generateRandomSolution(Problem problem) {
+	srand(time(NULL));
 	std::vector<Customer> customers;
 	customers = problem.customers;
 
@@ -105,6 +108,7 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 	for (i = 0; i < customerCount; i++) {
 
 		randomVehicleNumber = rand() % vehicleCount;
+		//std::cout << randomVehicleNumber << std::endl;
 		vehicleAvailable = vehicleList[randomVehicleNumber].vehicleAvailable(customers[i]);
 
 		if (vehicleAvailable) {
@@ -117,7 +121,9 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 
 	for (j = 0; j < vehicleList.size(); j++) {
 		randomDepotNumber = rand() % problem.depots.size();
+		//std::cout << randomDepotNumber << std::endl;
 		vehicleList[j].endDepot = problem.depots[randomDepotNumber];
+		std::cout << vehicleList[j].endDepot.depotId << std::endl;
 	}
 	
 }
