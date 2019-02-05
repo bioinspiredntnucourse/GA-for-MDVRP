@@ -25,10 +25,12 @@ Vehicle::~Vehicle() {
 	//delete &endDepot;
 	this->routeRange = NULL;
 	this->maxRouteRange = NULL;
+	/*
 	for (int i = 0; i < this->route.size(); i++) {
 		Customer* ptr = &this->route[i];
 		delete ptr;
 	}
+	*/
 }
 
 bool Vehicle::vehicleAvailable(Customer customer) {
@@ -90,8 +92,8 @@ SolutionInstance::SolutionInstance(Problem problem){
 		depotMaxVehicleCapacity = depots[i].maxVehicleCapacity;
 
 		for (j = 0; j < depotVehicleCount; j++) {
-			Vehicle* vehicle = new Vehicle(vehicleId, depotMaxVehicleCapacity, depots[i]);
-			this->vehicleList.push_back(*vehicle);
+			Vehicle vehicle = Vehicle(vehicleId, depotMaxVehicleCapacity, depots[i]);
+			this->vehicleList.push_back(vehicle);
 			vehicleId++;
 		}
 	}
@@ -125,7 +127,7 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 		randomDepotNumber = rand() % problem.depots.size();
 		//std::cout << randomDepotNumber << std::endl;
 		vehicleList[j].endDepot = problem.depots[randomDepotNumber];
-		std::cout << vehicleList[j].endDepot.depotId << std::endl;
+		//std::cout << vehicleList[j].endDepot.depotId << std::endl;
 	}
 	
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ProblemLoader.h"
 #include <iostream>
 #include <fstream>
