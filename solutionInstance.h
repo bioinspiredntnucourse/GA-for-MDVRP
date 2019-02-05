@@ -10,7 +10,7 @@ public:
 	int capacity;
 	Depot endDepot;
 	Depot originDepot;
-	int routeRange;
+	float routeRange;
 	int maxRouteRange;
 	std::vector<Customer> route;
 
