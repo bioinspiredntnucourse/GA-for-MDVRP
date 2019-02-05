@@ -49,6 +49,8 @@ public:
 	//fill "evaluations" based on fitness of "instances"
 	void Evaluate(vector<SolutionInstance*> *population, vector<float>* evaluations);
 
+	float CalculateFitness(SolutionInstance* solutionInstance);
+
 	//manipulate the population given the evaluations
 	void SelectNextGeneration(vector<SolutionInstance*> *population, vector<float>* evaluations);
 

@@ -8,6 +8,7 @@
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
 #include "ProblemLoader.h"
+#include "ProblemSolver.h"
 
 #include "ProblemLoaderTest.h"
 
@@ -67,8 +68,10 @@ int main() {
 
 	SolutionInstance sol(p);
 	sol.generateRandomSolution(p);
+	ProblemSolver problemSolver;
+	sol.fitness = problemSolver.CalculateFitness(&sol);
 
-	makeSolutionFile(sol, p);
+	makeSolutionFile(sol, p, "solutionFile.txt");
 
 	string problemfile = "\"./data_files/Data Files/p01\"";
 	string solutionfile = "./solutionFile.txt";

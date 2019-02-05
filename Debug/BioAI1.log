@@ -3,4 +3,16 @@ c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-fo
 c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(23): warning C4018: '<': signed/unsigned mismatch
 c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(25): warning C4018: '<': signed/unsigned mismatch
 c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\output.h(32): warning C4018: '<': signed/unsigned mismatch
+  ProblemSolver.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemsolver.cpp(7): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemsolver.cpp(16): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\problemsolver.cpp(15): warning C4101: 'solutionFitness': unreferenced local variable
+  solutionInstance.cpp
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(26): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(76): warning C4101: 'l': unreferenced local variable
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(80): warning C4101: 'depotMaxRouteRange': unreferenced local variable
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(99): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(121): warning C4018: '<': signed/unsigned mismatch
+c:\users\and_t\documents\skole\bio-inspirert kunstig intelligens\prosjekt1\ga-for-mdvrp\solutioninstance.cpp(130): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   BioAI1.vcxproj -> C:\Users\and_t\Documents\Skole\Bio-Inspirert Kunstig Intelligens\Prosjekt1\GA-for-MDVRP\Debug\BioAI1.exe

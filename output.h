@@ -15,7 +15,7 @@ void writeToFile(std::string content, std::string filename){
 	myfile.close();
 }
 
-void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem) {
+void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem, std::string filename) {
 	std::ostringstream os;
 	os << solutionInstance.fitness << "\n";
 	
@@ -39,5 +39,5 @@ void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem) {
 	}
 	std::string s = os.str();
 	std::cout << s;
-	writeToFile(s, "solutionFile.txt");
+	writeToFile(s, filename);
 }
