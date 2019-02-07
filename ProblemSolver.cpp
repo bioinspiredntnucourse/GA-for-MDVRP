@@ -20,8 +20,9 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 }
 
 //choose individuals to cross
-vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> population, vector<float> evaluations) {
-	return vector<SolutionInstance>();
+vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> population) {
+	vector<SolutionInstance> winners = Tournaments(population);
+	return winners;
 }
 vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
 	return vector<SolutionInstance>();
@@ -119,8 +120,15 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
 			randomScore = float((rand() % 100)) / float(100);
 			if (randomScore > (1 - this->mutationProbability)) {
-				randomVehicleNumber = rand() % solutionInstance.vehicleList.size();
-				randomCustomerNumber = rand() % solutionInstance.vehicleList[randomVehicleNumber].route.size();
+				cout << "mutation happening" << endl;
+
+				vector<Customer> route;
+				do  {
+					randomVehicleNumber = rand() % solutionInstance.vehicleList.size();
+					route = solutionInstance.vehicleList[randomVehicleNumber].route;
+				} while (route.size() == 0);
+
+				randomCustomerNumber = rand() % route.size(); //integer division by zero, happened here
 				tempCustomer = solutionInstance.vehicleList[i].route[j];
 				solutionInstance.vehicleList[i].route[j] = solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber];
 				solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber] = tempCustomer;
