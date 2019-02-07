@@ -4,16 +4,61 @@
 #include <iostream>
 
 
-void ProblemSolver::InitializePopulation(vector<SolutionInstance*> *population) {
+vector<SolutionInstance> ProblemSolver::InitializePopulation() {
+	vector<SolutionInstance> population;// = vector<SolutionInstance>(this->populationSize);
+	population.reserve(populationSize);
+
 	for (unsigned int i = 0; i < populationSize; i++) {
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
-		SolutionInstance *solinst = new SolutionInstance(*this->problem);
-		solinst->generateRandomSolution(*this->problem);
+		SolutionInstance sol(this->problem);
+		sol.generateRandomSolution(this->problem);
 
-		population->push_back(solinst);
+		population.push_back(sol);
 	}
+
+	std::cout << "population should be: " << populationSize << " population is: " << population.size() << std::endl;
+	return population;
 }
 
+
+//choose individuals to cross
+vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> population, vector<float> evaluations) {
+	return vector<SolutionInstance>();
+}
+vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
+	return vector<SolutionInstance>();
+}
+//performing a crossover on a single individul
+SolutionInstance ProblemSolver::CrossoverMutation(SolutionInstance instance) {
+	return SolutionInstance(this->problem);
+}
+
+//choose individuals and mutate them
+vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> children) {
+	return vector<SolutionInstance>();
+}
+SolutionInstance ProblemSolver::Mutate(SolutionInstance solutionInstance) {
+	return SolutionInstance(this->problem);
+}
+
+//fill "evaluations" based on fitness of "instances"
+vector<float> ProblemSolver::Evaluate(vector<SolutionInstance> population) {
+	return vector<float>();
+}
+float ProblemSolver::CalculateFitness(SolutionInstance solutionInstance) {
+	return 0;
+}
+
+vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> population, vector<float> evaluations) {
+	return vector<SolutionInstance>();
+}
+//manipulate the population given the evaluations
+vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population, vector<float> evaluations) {
+	return vector<SolutionInstance>();
+}
+
+
+/*
 void ProblemSolver::PopulationMutate(vector<SolutionInstance*> *population) {
 	int i;
 	float randomScore;
@@ -101,3 +146,4 @@ void ProblemSolver::PopulationCrossover(vector<SolutionInstance*> *population) {
 void ProblemSolver::SelectNextGeneration(vector<SolutionInstance*> *population, vector<float>* evaluations) {
 
 }
+*/
