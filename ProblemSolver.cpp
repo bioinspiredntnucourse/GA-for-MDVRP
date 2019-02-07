@@ -118,10 +118,11 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 	Customer tempCustomer;
 	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
 		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
-			randomScore = float((rand() % 100)) / float(100);
+			randomScore = float(rand()) / float(RAND_MAX);
 			if (randomScore > (1 - this->mutationProbability)) {
 				cout << "mutation happening" << endl;
 
+				//make sure that the route used is not of size 0
 				vector<Customer> route;
 				do  {
 					randomVehicleNumber = rand() % solutionInstance.vehicleList.size();
