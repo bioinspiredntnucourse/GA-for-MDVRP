@@ -36,15 +36,7 @@ public:
 		//start
 		population = InitializePopulation();
 
-
-		for (unsigned int i = 0; i < population.size(); i++) {
-			cout << population[i].fitness << endl;
-			DrawSolutionInstance(this->problem, population[i]);
-		}
-
-		return;
-
-		evaluations = Evaluate(population);
+		population = Evaluate(population);
 
 		int i = 0;
 		while (running) {
@@ -55,10 +47,11 @@ public:
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
 
-			evaluations = Evaluate(population);
+			population = Evaluate(population);
 
-			population = SelectNextGeneration(population, evaluations);
-			evaluations = Evaluate(population);
+			population = SelectNextGeneration(population);
+
+			population = Evaluate(population);
 
 
 			if (i++ >= 100)
@@ -83,12 +76,12 @@ public:
 	SolutionInstance Mutate(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
-	vector<float> Evaluate(vector<SolutionInstance> population);
+	vector<SolutionInstance> Evaluate(vector<SolutionInstance> population);
 	float CalculateFitness(SolutionInstance &solutionInstance);
 
 	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population, vector<float> evaluations);
 	//manipulate the population given the evaluations
-	vector<SolutionInstance> SelectNextGeneration(vector<SolutionInstance> population, vector<float> evaluations);
+	vector<SolutionInstance> SelectNextGeneration(vector<SolutionInstance> population);
 
 	vector<SolutionInstance> Replicate(vector<SolutionInstance> winners, int populationSize);
 

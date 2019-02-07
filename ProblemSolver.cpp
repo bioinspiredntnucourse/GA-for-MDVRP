@@ -27,8 +27,27 @@ vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance
 	return vector<SolutionInstance>();
 }
 //manipulate the population given the evaluations
-vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population, vector<float> evaluations) {
-	return vector<SolutionInstance>();
+vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population) {
+	vector<SolutionInstance> currentSolutions;
+
+	currentSolutions.reserve(populationSize);
+
+	//put populationSize number of instances in our currentVectors
+	for (unsigned int i = 0; i < populationSize; i++) {
+		currentSolutions.push_back(population[i]);
+	}
+
+	//of the remaining, replace the better ones with the existing bad ones in currentVector
+	for (unsigned int i = populationSize; i < population.size(); i++) {
+		for (unsigned int j = 0; j < currentSolutions.size(); j++) {
+			if (population[i].fitness < currentSolutions[j].fitness) {
+				currentSolutions[j] = population[i];
+				break;
+			}
+		}
+	}
+
+	return currentSolutions;
 }
 
 
@@ -81,16 +100,16 @@ SolutionInstance ProblemSolver::Mutate(SolutionInstance target) {
 }
 
 
-vector<float> ProblemSolver::Evaluate(vector<SolutionInstance> population) {
+vector<SolutionInstance> ProblemSolver::Evaluate(vector<SolutionInstance> population) {
 	int i;
 	int solutionFitness;
-	vector<float> evaluation;
+	vector<SolutionInstance> evaluatedInstances;
 	for (i = 0; i < population.size(); i++) {
 		solutionFitness = this->CalculateFitness(population[i]);
 		population[i].fitness = solutionFitness;
-		evaluation.push_back(solutionFitness);
+		evaluatedInstances.push_back(population[i]);
 	}
-	return evaluation;
+	return evaluatedInstances;
 }
 
 
