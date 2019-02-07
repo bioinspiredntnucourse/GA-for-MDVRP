@@ -130,6 +130,7 @@
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />
     <ClInclude Include="output.h" />
+    <ClInclude Include="ProblemSolverTest.h" />
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="solutionInstance.h" />
