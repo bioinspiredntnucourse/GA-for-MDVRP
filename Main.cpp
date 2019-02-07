@@ -4,15 +4,19 @@
 
 #include <sstream>
 #include <iterator>
+#include <ctime>
+#include <cstdlib>
 
 #include "ProblemStructures.h"
 #include "ProblemLoader.h"
+
 //#include "output.h"
 
 #include "ProblemSolver.h"
 
 
 int main() {
+	srand(time(NULL));
 	/*
 	Customer cust;
 	Depot dep;
@@ -64,8 +68,10 @@ int main() {
 
 	SolutionInstance sol(p);
 	sol.generateRandomSolution(p);
+	ProblemSolver problemSolver;
+	sol.fitness = problemSolver.CalculateFitness(&sol);
 
-	makeSolutionFile(sol, p);
+	makeSolutionFile(sol, p, "solutionFile.txt");
 
 	string problemfile = "\"./data_files/Data Files/p01\"";
 	string solutionfile = "./solutionFile.txt";
@@ -84,7 +90,7 @@ int main() {
 
 	ProblemSolver ps;
 	ps.populationSize = 4;
-	ps.SolveMdvrpWithGa(&p);
+	ps.SolveMdvrpWithGa(p);
 
 
 

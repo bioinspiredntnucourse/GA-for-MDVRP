@@ -16,6 +16,7 @@ inline void writeToFile(std::string content, std::string filename){
 	myfile.close();
 }
 
+
 inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem, string filename) {
 	std::ostringstream os;
 	os << solutionInstance.fitness << "\n";
@@ -43,8 +44,12 @@ inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &proble
 	writeToFile(s, filename);
 }
 
+//int outputDrawSolutionFilenumber = 0;
+
 inline void DrawSolutionInstance(Problem &problem, SolutionInstance &solutionInstance) {
 	string filename = "./generatedToDraw.res";
+	//string filename = "./generatedToDraw" + to_string(outputDrawSolutionFilenumber++) + ".res";
+	cout << "filename: " << filename << endl;
 	makeSolutionFile(solutionInstance, problem, filename);
 	DrawSolution("\"" + problem.filename + "\"", filename);
 }

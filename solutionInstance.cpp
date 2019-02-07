@@ -100,7 +100,6 @@ SolutionInstance::SolutionInstance(Problem problem){
 }
 
 void SolutionInstance::generateRandomSolution(Problem problem) {
-	srand(time(NULL));
 	std::vector<Customer> customers;
 	customers = problem.customers;
 
@@ -112,7 +111,6 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 	for (i = 0; i < customerCount; i++) {
 
 		randomVehicleNumber = rand() % vehicleCount;
-		//std::cout << randomVehicleNumber << std::endl;
 		vehicleAvailable = vehicleList[randomVehicleNumber].vehicleAvailable(customers[i]);
 
 		if (vehicleAvailable) {
@@ -125,7 +123,6 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 
 	for (j = 0; j < vehicleList.size(); j++) {
 		randomDepotNumber = rand() % problem.depots.size();
-		//std::cout << randomDepotNumber << std::endl;
 		vehicleList[j].endDepot = problem.depots[randomDepotNumber];
 		//std::cout << vehicleList[j].endDepot.depotId << std::endl;
 	}
