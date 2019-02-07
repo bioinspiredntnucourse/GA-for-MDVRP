@@ -68,11 +68,11 @@ int main() {
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	//ProblemToStream(p, cout);
-
+	
 	SolutionInstance sol(p);
 	sol.generateRandomSolution(p);
 	ProblemSolver problemSolver;
-	sol.fitness = problemSolver.CalculateFitness(&sol);
+	sol.fitness = problemSolver.CalculateFitness(sol);
 
 	makeSolutionFile(sol, p, "solutionFile.txt");
 
@@ -83,7 +83,7 @@ int main() {
 
 	//ProblemLoaderTest();
 	//GraphicsTest();
-
+	
 
 	std::string exit;
 	std::cin >> exit;
