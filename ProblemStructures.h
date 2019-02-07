@@ -30,6 +30,7 @@ public:
 
 class Problem {
 public:
+	string filename;
 	std::vector<Depot> depots;
 	std::vector<Customer> customers;
 };

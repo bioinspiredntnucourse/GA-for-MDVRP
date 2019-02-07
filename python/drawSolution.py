@@ -19,8 +19,8 @@ def main():
         exit(-1)
 
     #look in the data files folders if only a filename is given
-    problemFileName = "../data_files/Data Files/" + sys.argv[1] if "/" not in sys.argv[1] else sys.argv[1]
-    solutionFilename = "../data_files/Solution Files/" + sys.argv[2] if "/" not in sys.argv[2] else sys.argv[2]
+    problemFileName = "../data_files/Data Files/" + sys.argv[1] if ("/" not in sys.argv[1] and "\\" not in sys.argv[1]) else sys.argv[1]
+    solutionFilename = "../data_files/Solution Files/" + sys.argv[2] if ("/" not in sys.argv[2] and "\\" not in sys.argv[2]) else sys.argv[2]
 
     print("problemFilename: "+problemFileName + " solutionFilename: " + solutionFilename)
 

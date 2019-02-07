@@ -2,46 +2,71 @@
 
 #include "ProblemStructures.h"
 #include "solutionInstance.h"
+#include "output.h"
+
+#include <iostream>
+
+using namespace std;
 
 class ProblemSolver {
 private:
+	//control
 	Problem problem;
+	bool running = true;
 
+
+public:
 	//algorithm parameters
 	int populationSize;
 	int crossoverProbability;
 	int tournamentSize;
 	float mutationProbability;
 
-	//control
-	bool running = true;
-
-public:
-
-	inline void SolveMdvrpWithGa(Problem &problem) {
+	inline void SolveMdvrpWithGa(const Problem &problem) {
+		this->problem = problem;
 
 		//declare
 		vector<SolutionInstance> population;
+		vector<SolutionInstance> parents;
+		vector<SolutionInstance> children;
+		vector<SolutionInstance> mutatedChildren;
+		vector<float> evaluations;
+
 		
 		//start
-		population = InitializePopulation(population);
+		population = InitializePopulation();
 		population = Evaluate(population);
 
 		int i = 0;
 		while (running) {
-			Crossover(population);
-			MutateChildren(population);
-			SelectNextGeneration(population);
+
+			parents = ChooseParents(population, evaluations);
+			children = Crossover(parents);
+			mutatedChildren = MutateChildren(children);
+			
+			//add mutated children to the population
+			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
+
+			population = Evaluate(population);
+
+			population = SelectNextGeneration(population);
+
+			population = Evaluate(population);
 
 			if (i++ >= 100)
 				running = false;
 		}
+
+
 	}
 
 	//GA flow
-	vector<SolutionInstance> InitializePopulation(vector<SolutionInstance> population);
+	vector<SolutionInstance> InitializePopulation();
 
-	//choose individuals and cross them
+	//choose individuals to cross
+	vector<SolutionInstance> ChooseParents(vector<SolutionInstance> population, vector<float> evaluations);
+	vector<SolutionInstance> ParentsCrossover(vector<SolutionInstance> parents);
+
 	vector<SolutionInstance> Crossover(vector<SolutionInstance> population);
 	//performing a crossover on a single individul
 	SolutionInstance IndividualCrossover(SolutionInstance instance);
@@ -56,9 +81,9 @@ public:
 
 	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population);
 	//manipulate the population given the evaluations
-	void SelectNextGeneration(vector<SolutionInstance> population);
 
 	vector<SolutionInstance> Replicate(vector<SolutionInstance> winners, int populationSize);
+	vector<SolutionInstance> SelectNextGeneration(vector<SolutionInstance> population);
 
 
 	//utilities

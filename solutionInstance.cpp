@@ -1,3 +1,5 @@
+#pragma once
+
 #include "solutionInstance.h"
 #include <stdlib.h>
 #include <iostream>
@@ -23,10 +25,12 @@ Vehicle::~Vehicle() {
 	//delete &endDepot;
 	this->routeRange = NULL;
 	this->maxRouteRange = NULL;
+	/*
 	for (int i = 0; i < this->route.size(); i++) {
 		Customer* ptr = &this->route[i];
 		delete ptr;
 	}
+	*/
 }
 
 bool Vehicle::vehicleAvailable(Customer customer) {
@@ -120,6 +124,7 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 	for (j = 0; j < vehicleList.size(); j++) {
 		randomDepotNumber = rand() % problem.depots.size();
 		vehicleList[j].endDepot = problem.depots[randomDepotNumber];
+		//std::cout << vehicleList[j].endDepot.depotId << std::endl;
 	}
 	
 }

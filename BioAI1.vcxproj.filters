@@ -68,5 +68,8 @@
     <ClInclude Include="GraphicsTest.h">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="ProblemSolverTest.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

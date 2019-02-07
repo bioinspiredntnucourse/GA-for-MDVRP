@@ -1,5 +1,55 @@
+#pragma once
 #include "ProblemSolver.h"
+#include "solutionInstance.h"
 #include <iostream>
+
+vector<SolutionInstance> ProblemSolver::InitializePopulation() {
+	vector<SolutionInstance> population;// = vector<SolutionInstance>(this->populationSize);
+	population.reserve(populationSize);
+
+	for (unsigned int i = 0; i < populationSize; i++) {
+		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
+		SolutionInstance sol(this->problem);
+		sol.generateRandomSolution(this->problem);
+
+		population.push_back(sol);
+	}
+
+	std::cout << "population should be: " << populationSize << " population is: " << population.size() << std::endl;
+	return population;
+}
+
+//choose individuals to cross
+vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> population, vector<float> evaluations) {
+	return vector<SolutionInstance>();
+}
+vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
+	return vector<SolutionInstance>();
+}
+//manipulate the population given the evaluations
+vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population) {
+	vector<SolutionInstance> currentSolutions;
+
+	currentSolutions.reserve(populationSize);
+
+	//put populationSize number of instances in our currentVectors
+	for (unsigned int i = 0; i < populationSize; i++) {
+		currentSolutions.push_back(population[i]);
+	}
+
+	//of the remaining, replace the better ones with the existing bad ones in currentVector
+	for (unsigned int i = populationSize; i < population.size(); i++) {
+		for (unsigned int j = 0; j < currentSolutions.size(); j++) {
+			if (population[i].fitness < currentSolutions[j].fitness) {
+				currentSolutions[j] = population[i];
+				break;
+			}
+		}
+	}
+
+	return currentSolutions;
+}
+
 
 vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> copys) {
 	int i;
@@ -12,6 +62,7 @@ vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> copys
 SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 	int i, randomVehicleNumber, N;
 	float randomScore;
+	vector<SolutionInstance> mutatedChildren;
 	
 	for (i = 0; i < instance.vehicleList.size(); i++) {
 		randomScore = float((rand() % 100)) / float(100);
@@ -122,6 +173,7 @@ vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> pop
 	}
 	return winners;
 }
+
 
 vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
 	int i, j, copyPerParent;
