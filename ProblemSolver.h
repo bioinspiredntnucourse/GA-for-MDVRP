@@ -23,6 +23,26 @@ public:
 	float mutationProbability;
 	int iterations;
 
+	inline void SolveByRandom(const Problem &problem) {
+		this->problem = problem;
+		vector<SolutionInstance> population;
+
+		SolutionInstance bestInstance(this->problem);
+		bestInstance.fitness = 999999999;
+
+		for (int i = 0; i < iterations; i++) {
+			population = InitializePopulation();
+			population = Evaluate(population);
+			SolutionInstance inst = FindBestInstance(population);
+			if (inst.fitness < bestInstance.fitness) {
+				bestInstance = inst;
+			}
+
+			cout << "iteration " << i << endl;
+		}
+		DrawSolutionInstance(this->problem, bestInstance);
+	}
+
 	inline void SolveMdvrpWithGa(const Problem &problem) {
 		this->problem = problem;
 

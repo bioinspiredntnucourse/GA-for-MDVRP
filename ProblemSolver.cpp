@@ -15,14 +15,15 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 		population.push_back(sol);
 	}
 
-	std::cout << "population should be: " << populationSize << " population is: " << population.size() << std::endl;
+	//std::cout << "population should be: " << populationSize << " population is: " << population.size() << std::endl;
 	return population;
 }
 
 //choose individuals to cross
 vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> population) {
 	vector<SolutionInstance> winners = Tournaments(population);
-	return winners;
+	vector<SolutionInstance> replicatedWinners = Replicate(winners, populationSize);
+	return replicatedWinners;
 }
 vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
 	return vector<SolutionInstance>();
@@ -120,7 +121,7 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
 			randomScore = float(rand()) / float(RAND_MAX);
 			if (randomScore > (1 - this->mutationProbability)) {
-				cout << "mutation happening" << endl;
+				//cout << "mutation happening" << endl;
 
 				//make sure that the route used is not of size 0
 				vector<Customer> route;
