@@ -88,10 +88,10 @@ int main() {
 
 	ProblemSolver ps;
 	ps.iterations = 100;
-	ps.populationSize = 4;
+	ps.populationSize = 100;
 	ps.crossoverProbability = 0;
-	ps.mutationProbability = 1;// 0.01;
-	ps.tournamentSize = 2;
+	ps.mutationProbability = 0.05;
+	ps.tournamentSize = 10;
 
 	ps.SolveMdvrpWithGa(p);
 

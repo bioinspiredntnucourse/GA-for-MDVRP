@@ -130,9 +130,15 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 				} while (route.size() == 0);
 
 				randomCustomerNumber = rand() % route.size(); //integer division by zero, happened here
+				
+				//perform mutation: switch a customer between two vehicles
 				tempCustomer = solutionInstance.vehicleList[i].route[j];
 				solutionInstance.vehicleList[i].route[j] = solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber];
 				solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber] = tempCustomer;
+				
+				//recalculate vehicle paths after mutation
+				solutionInstance.vehicleList[i].RecalculateRouteDistance();
+				solutionInstance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
 			}
 		}
 	}
@@ -161,24 +167,33 @@ float ProblemSolver::CalculateFitness(SolutionInstance& solutionInstance) {
 }
 
 vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> population) {
-	int i, j, numWinners;
+	//BUG: tournament size seems to have to be half of the population size
+	int i, j, groupCount, numWinners;
 	int tournamentLeaderScore;
 	vector<SolutionInstance> winners;
 
 	if (population.size() % tournamentSize > 0) {
-		numWinners = (population.size() / tournamentSize) + 1;
+		throw domain_error("population size should be a mulitple of tournamant size");
+		groupCount = (population.size() / tournamentSize) + 1;
 	}
 	else {
-		numWinners = (population.size() / tournamentSize);
+		groupCount = (population.size() / tournamentSize);
 	}
-	//vector<SolutionInstance> winners(tournamentSize);
-	for (i = 0; i < numWinners; i++) {
+
+	for (i = 0; i < groupCount; i++) {
 		tournamentLeaderScore = 9999999999;
+		SolutionInstance *currentWinner = nullptr;
+
 		for (j = 0; j < tournamentSize; j++) {
-			if (population[(i*numWinners) + j].fitness < tournamentLeaderScore) {
-				winners.push_back(population[(i*numWinners) + j]);
+			int individualId = (i*tournamentSize) + j;
+			SolutionInstance *currentInstance = &population[individualId];
+			
+			if (currentInstance->fitness < tournamentLeaderScore) {
+				tournamentLeaderScore = currentInstance->fitness;
+				currentWinner = currentInstance;
 			}
 		}
+		winners.push_back(*currentWinner);
 	}
 	return winners;
 }

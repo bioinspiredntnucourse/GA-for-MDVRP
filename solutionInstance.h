@@ -19,6 +19,7 @@ public:
 	bool vehicleAvailable(Customer customer);
 	float calculateDistance2Customer(Customer customer);
 	void addCustomer2VehicleRoute(Customer customer);
+	void RecalculateRouteDistance();
 
 	~Vehicle();
 };

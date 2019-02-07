@@ -65,11 +65,31 @@ float Vehicle::calculateDistance2Customer(Customer customer) {
 
 void Vehicle::addCustomer2VehicleRoute(Customer customer) {
 	float extraDistance;
-
 	extraDistance = this->calculateDistance2Customer(customer);
+
 	this->route.push_back(customer);
 	this->routeRange = extraDistance + this->routeRange;
 	this->load = customer.demand + this->load;
+}
+
+float distanceBetween(Location &loc1, Location &loc2) {
+	return distanceBetweenCoordinates(loc1.x, loc1.y, loc2.x, loc2.y);
+}
+void Vehicle::RecalculateRouteDistance() {
+
+	//if there are no customers, set the distance between start and end depots
+	if (route.size() == 0) {
+		routeRange = distanceBetween(originDepot, endDepot);
+		return;
+	}
+
+	float totDist = 0;
+	totDist += distanceBetween(originDepot, route[0]);
+	for (unsigned int i = 1; i < route.size(); i++) {
+		totDist += distanceBetween(route[i - 1], route[i]);
+	}
+	totDist += distanceBetween(route.back(), endDepot);
+	this->routeRange = totDist;
 }
 
 SolutionInstance::SolutionInstance(Problem problem){
