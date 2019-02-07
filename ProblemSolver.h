@@ -31,7 +31,7 @@ public:
 		int i = 0;
 		while (running) {
 			Crossover(population);
-			PopulationMutate(population);
+			MutateChildren(population);
 			SelectNextGeneration(population, evaluations);
 
 			if (i++ >= 100)
@@ -45,11 +45,11 @@ public:
 	//choose individuals and cross them
 	vector<SolutionInstance> Crossover(vector<SolutionInstance> population);
 	//performing a crossover on a single individul
-	SolutionInstance CrossoverMutation(SolutionInstance instance);
+	SolutionInstance IndividualCrossover(SolutionInstance instance);
 
 	//choose individuals and mutate them
-	void PopulationMutate(vector<SolutionInstance> population);
-	void Mutate(SolutionInstance solutionInstance);
+	vector<SolutionInstance> MutateChildren(vector<SolutionInstance> population);
+	SolutionInstance MutateChild(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
 	vector<float> Evaluate(vector<SolutionInstance> population);

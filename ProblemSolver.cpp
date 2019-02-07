@@ -1,46 +1,51 @@
 #include "ProblemSolver.h"
 #include <iostream>
 
-//vector<>
-
-void ProblemSolver::PopulationMutate(vector<SolutionInstance> population) {
+vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> copys) {
 	int i;
 	float randomScore;
-	
-	for (i = 0; i < population.size(); i++) {
+	for (i = 0; i < copys.size(); i++) {
 		randomScore = (rand() % 100) / 100;
 		std::cout << randomScore << std::endl; //PRINT! REMOVE AFTER
-		if (randomScore > (1 - this->mutationProbability)) {
-			Mutate(population[i]);
+		if (randomScore > (1 - this->crossoverProbability)) {
+			copys[i] = IndividualCrossover(copys[i]);
 		}
 	}
 }
 
+SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 
-void ProblemSolver::Mutate(SolutionInstance solutionInstance) {
-	int randomRouteNumber_1, randomRouteNumber_2, 
-		randomCustomerOnRoute_1, randomCustomerOnRoute_2,
-		randomDepotNumber;
-	Customer tempCustomer;
-
-	randomRouteNumber_1 = rand() % solutionInstance.vehicleList.size();
-	randomCustomerOnRoute_1 = rand() % (solutionInstance.vehicleList[randomRouteNumber_1].route.size() + 1);
-	
-	if (randomCustomerOnRoute_1 == solutionInstance.vehicleList[randomRouteNumber_1].route.size()) { // Change endDepots
-		randomDepotNumber = rand() % (this->problem.depots.size());
-		solutionInstance.vehicleList[randomRouteNumber_1].endDepot = this->problem.depots[randomDepotNumber];
-		std::cout << "DEPOT MUTATION" << std::endl;
-	}
-	else { // Swap single random customer
-		randomCustomerOnRoute_1 = rand() % solutionInstance.vehicleList[randomRouteNumber_1].route.size();
-		randomRouteNumber_2 = rand() % solutionInstance.vehicleList.size();
-		randomCustomerOnRoute_2 = rand() % (solutionInstance.vehicleList[randomRouteNumber_2].route.size());
-		tempCustomer = solutionInstance.vehicleList[randomRouteNumber_1].route[randomCustomerOnRoute_1];
-		solutionInstance.vehicleList[randomRouteNumber_1].route[randomCustomerOnRoute_1] = solutionInstance.vehicleList[randomRouteNumber_2].route[randomCustomerOnRoute_2];
-		solutionInstance.vehicleList[randomRouteNumber_2].route[randomCustomerOnRoute_2] = tempCustomer;
-	}
 }
 
+vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> children) {
+	int i;
+	float randomScore;
+	vector<SolutionInstance> mutatedChildren;
+	
+	for (i = 0; i < children.size(); i++) {
+		mutatedChildren[i] = MutateChild(children[i]);
+	}
+	return mutatedChildren;
+}
+
+SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
+	int i, j, randomCustomerNumber, randomVehicleNumber;
+	float randomScore;
+	Customer tempCustomer;
+	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
+		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
+			randomScore = float((rand() % 100)) / float(100);
+			if (randomScore > (1 - this->mutationProbability)) {
+				randomVehicleNumber = rand() % solutionInstance.vehicleList.size();
+				randomCustomerNumber = rand() % solutionInstance.vehicleList[randomVehicleNumber].route.size();
+				tempCustomer = solutionInstance.vehicleList[i].route[j];
+				solutionInstance.vehicleList[i].route[j] = solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber];
+				solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber] = tempCustomer;
+			}
+		}
+	}
+	return solutionInstance;
+}
 
 vector<float> ProblemSolver::Evaluate(vector<SolutionInstance> population) {
 	int i;
