@@ -65,11 +65,11 @@ int main() {
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	//ProblemToStream(p, cout);
-
+	
 	SolutionInstance sol(p);
 	sol.generateRandomSolution(p);
 	ProblemSolver problemSolver;
-	sol.fitness = problemSolver.CalculateFitness(&sol);
+	sol.fitness = problemSolver.CalculateFitness(sol);
 
 	makeSolutionFile(sol, p, "solutionFile.txt");
 
@@ -77,8 +77,6 @@ int main() {
 	string solutionfile = "./solutionFile.txt";
 
 	DrawSolution(problemfile, solutionfile);
-
-
 
 
 
@@ -91,7 +89,6 @@ int main() {
 	ProblemSolver ps;
 	ps.populationSize = 4;
 	ps.SolveMdvrpWithGa(p);
-
 
 
 	std::string exit;

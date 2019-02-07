@@ -14,6 +14,7 @@ private:
 	Problem problem;
 	bool running = true;
 
+
 public:
 	//algorithm parameters
 	int populationSize;
@@ -59,6 +60,7 @@ public:
 			population = SelectNextGeneration(population, evaluations);
 			evaluations = Evaluate(population);
 
+
 			if (i++ >= 100)
 				running = false;
 		}
@@ -72,19 +74,22 @@ public:
 	//choose individuals to cross
 	vector<SolutionInstance> ChooseParents(vector<SolutionInstance> population, vector<float> evaluations);
 	vector<SolutionInstance> ParentsCrossover(vector<SolutionInstance> parents);
+
+	vector<SolutionInstance> Crossover(vector<SolutionInstance> population);
 	//performing a crossover on a single individul
 	SolutionInstance CrossoverMutation(SolutionInstance instance);
 
-	//choose individuals and mutate them
 	vector<SolutionInstance> MutateChildren(vector<SolutionInstance> children);
 	SolutionInstance Mutate(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
 	vector<float> Evaluate(vector<SolutionInstance> population);
-	float CalculateFitness(SolutionInstance solutionInstance);
+	float CalculateFitness(SolutionInstance &solutionInstance);
 
 	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population, vector<float> evaluations);
 	//manipulate the population given the evaluations
 	vector<SolutionInstance> SelectNextGeneration(vector<SolutionInstance> population, vector<float> evaluations);
+
+	vector<SolutionInstance> Replicate(vector<SolutionInstance> winners, int populationSize);
 
 };
