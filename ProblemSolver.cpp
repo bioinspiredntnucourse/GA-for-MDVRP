@@ -146,21 +146,19 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 	return solutionInstance;
 }
 
-vector<SolutionInstance> ProblemSolver::Evaluate(vector<SolutionInstance> population) {
+void ProblemSolver::Evaluate(vector<SolutionInstance> &population) {
 	int i;
 	int solutionFitness;
 	for (i = 0; i < population.size(); i++) {
 		solutionFitness = this->CalculateFitness(population[i]);
 		population[i].fitness = solutionFitness;
 	}
-	return population;
 }
 
 
 float ProblemSolver::CalculateFitness(SolutionInstance& solutionInstance) {
 	int i;
-	float fitness;
-	fitness = 0;
+	float fitness = 0;
 	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
 		fitness += solutionInstance.vehicleList[i].routeRange;
 	}

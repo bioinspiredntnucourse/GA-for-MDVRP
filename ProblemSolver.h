@@ -32,7 +32,7 @@ public:
 
 		for (int i = 0; i < iterations; i++) {
 			population = InitializePopulation();
-			population = Evaluate(population);
+			Evaluate(population);
 			SolutionInstance inst = FindBestInstance(population);
 			if (inst.fitness < bestInstance.fitness) {
 				bestInstance = inst;
@@ -59,7 +59,7 @@ public:
 		
 		//start
 		population = InitializePopulation();
-		population = Evaluate(population);
+		Evaluate(population);
 
 		SolutionInstance bestInitInstance = FindBestInstance(population);
 		DrawSolutionInstance(this->problem, bestInitInstance);
@@ -76,11 +76,11 @@ public:
 
 			cout << "population after mutation: " << population.size() << endl;
 
-			population = Evaluate(population);
+			Evaluate(population);
 
 			population = SelectNextGeneration(population);
 
-			population = Evaluate(population);
+			Evaluate(population);
 
 			cout << "iteration " << i << endl;
 			generationBest.push_back(FindBestInstance(population));
@@ -130,7 +130,7 @@ public:
 	SolutionInstance MutateChild(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
-	vector<SolutionInstance> Evaluate(vector<SolutionInstance> population);
+	void Evaluate(vector<SolutionInstance> &population);
 	float CalculateFitness(SolutionInstance& solutionInstance);
 
 	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population);
