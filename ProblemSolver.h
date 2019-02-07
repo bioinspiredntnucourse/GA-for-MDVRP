@@ -22,17 +22,16 @@ public:
 
 		//declare
 		vector<SolutionInstance> population;
-		vector<float> evaluations;
 		
 		//start
 		population = InitializePopulation(population);
-		evaluations = Evaluate(population);
+		population = Evaluate(population);
 
 		int i = 0;
 		while (running) {
 			Crossover(population);
 			MutateChildren(population);
-			SelectNextGeneration(population, evaluations);
+			SelectNextGeneration(population);
 
 			if (i++ >= 100)
 				running = false;
@@ -52,16 +51,17 @@ public:
 	SolutionInstance MutateChild(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
-	vector<float> Evaluate(vector<SolutionInstance> population);
+	vector<SolutionInstance> Evaluate(vector<SolutionInstance> population);
 	float CalculateFitness(SolutionInstance& solutionInstance);
 
-	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population, vector<float> evaluations);
+	vector<SolutionInstance> Tournaments(vector<SolutionInstance> population);
 	//manipulate the population given the evaluations
-	void SelectNextGeneration(vector<SolutionInstance> population, vector<float> evaluations);
+	void SelectNextGeneration(vector<SolutionInstance> population);
 
 	vector<SolutionInstance> Replicate(vector<SolutionInstance> winners, int populationSize);
 
 
 	//utilities
 	SolutionInstance GenerateRandomSolution(vector<Customer> customers);
+	void swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<Customer>& route2, int N);
 };
