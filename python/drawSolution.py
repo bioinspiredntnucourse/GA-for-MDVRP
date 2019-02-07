@@ -24,6 +24,7 @@ def main():
 
     print("problemFilename: "+problemFileName + " solutionFilename: " + solutionFilename)
 
+
     #LOAD DATA FROM FILES
     fileo = open(problemFileName)
     [maxVehicles, customerCount, depotCount] = [int(x) for x in fileo.readline().split(' ')]
@@ -45,7 +46,7 @@ def main():
     #PLOT PATHS
     paths = getPaths(solutionlines, depotsCoords, customersCoords)
     for path in paths:
-        plt.plot([x[0] for x in path], [x[1] for x in path], 'y')
+        plt.plot([x[0] for x in path], [x[1] for x in path])
 
     #PRINT STUFF
     print("fitness:", fitness)
@@ -55,6 +56,7 @@ def main():
     print("customerCount: ", len(customersCoords))
     #print("paths", paths)
 
+    plt.title(solutionFilename + "\nfitness: " + str(fitness))
     plt.show()
 
 

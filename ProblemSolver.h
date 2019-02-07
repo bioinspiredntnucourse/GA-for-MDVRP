@@ -21,6 +21,7 @@ public:
 	int crossoverProbability;
 	int tournamentSize;
 	float mutationProbability;
+	int iterations;
 
 	inline void SolveMdvrpWithGa(const Problem &problem) {
 		this->problem = problem;
@@ -32,20 +33,28 @@ public:
 		vector<SolutionInstance> mutatedChildren;
 		vector<float> evaluations;
 
+		//stats
+		vector<SolutionInstance> generationBest;
+
 		
 		//start
 		population = InitializePopulation();
 		population = Evaluate(population);
 
+		SolutionInstance bestInitInstance = FindBestInstance(population);
+		DrawSolutionInstance(this->problem, bestInitInstance);
+
 		int i = 0;
 		while (running) {
 
-			parents = ChooseParents(population, evaluations);
-			children = Crossover(parents);
-			mutatedChildren = MutateChildren(children);
+			parents = ChooseParents(population);
+			//children = Crossover(parents);
+			mutatedChildren = MutateChildren(parents);
 			
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
+
+			cout << "population after mutation: " << population.size() << endl;
 
 			population = Evaluate(population);
 
@@ -53,18 +62,43 @@ public:
 
 			population = Evaluate(population);
 
-			if (i++ >= 100)
+			cout << "iteration " << i << endl;
+			generationBest.push_back(FindBestInstance(population));
+
+			if (i++ >= iterations)
 				running = false;
 		}
 
+		DrawSolutionInstance(this->problem, generationBest.back());
 
+	}
+
+	inline SolutionInstance FindBestInstance(vector<SolutionInstance> instances) {
+		if (instances.size() == 0) throw invalid_argument("no instencesin vector");
+
+		float lowestFitness = instances[0].fitness;
+		int lowestFitnessIndex = 0;
+
+		for (int i = 1; i < instances.size(); i++) {
+			if (instances[i].fitness < lowestFitness) {
+				lowestFitness = instances[i].fitness;
+				lowestFitnessIndex = i;
+			}
+		}
+
+		return instances[lowestFitnessIndex];
+	}
+	inline void DrawSolutions(vector<SolutionInstance> solutions) {
+		for (int i = 0; i < solutions.size(); i++) {
+			DrawSolutionInstance(this->problem, solutions[i]);
+		}
 	}
 
 	//GA flow
 	vector<SolutionInstance> InitializePopulation();
 
 	//choose individuals to cross
-	vector<SolutionInstance> ChooseParents(vector<SolutionInstance> population, vector<float> evaluations);
+	vector<SolutionInstance> ChooseParents(vector<SolutionInstance> population);
 	vector<SolutionInstance> ParentsCrossover(vector<SolutionInstance> parents);
 
 	vector<SolutionInstance> Crossover(vector<SolutionInstance> population);
