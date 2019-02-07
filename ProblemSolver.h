@@ -71,12 +71,11 @@ public:
 			//children = Crossover(parents);
 			mutatedChildren = MutateChildren(parents);
 			
+			//evaluate only the newly generated children here
+			Evaluate(mutatedChildren);
+
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
-
-			cout << "population after mutation: " << population.size() << endl;
-
-			Evaluate(population);
 
 			population = SelectNextGeneration(population);
 
@@ -87,10 +86,15 @@ public:
 
 			if (i++ >= iterations)
 				running = false;
+
+			if (i % 100 == 0) {
+				PlotGenerations(generationBest);
+				DrawSolutionInstance(this->problem, generationBest.back());
+			}
 		}
 
 		DrawSolutionInstance(this->problem, generationBest.back());
-
+		PlotGenerations(generationBest);
 	}
 
 	inline SolutionInstance FindBestInstance(vector<SolutionInstance> instances) {

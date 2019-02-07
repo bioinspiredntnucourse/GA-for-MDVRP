@@ -84,19 +84,20 @@ int main() {
 	*/
 
 
-	/*
+	
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
-	ps.iterations = 500;
-	ps.populationSize = 1000;
+	ps.iterations = 1000;
+	ps.populationSize = 500;
 	ps.crossoverProbability = 0;
 	ps.mutationProbability = 0.01;
-	ps.tournamentSize = 20;
+	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);
-	*/
+	
 
+	/*
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
@@ -107,6 +108,7 @@ int main() {
 	//ps.tournamentSize = 20;
 
 	ps.SolveByRandom(p);
+	*/
 
 	std::string exit;
 	std::cin >> exit;

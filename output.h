@@ -16,6 +16,17 @@ inline void writeToFile(std::string content, std::string filename){
 	myfile.close();
 }
 
+inline void PlotGenerations(vector<SolutionInstance> generationBests) {
+	if (generationBests.size() == 0) return;
+
+	string inp = to_string(generationBests[0].fitness);
+	for (int i = 1; i < generationBests.size(); i++) {
+		inp += "," + to_string(generationBests[i].fitness);
+	}
+	string filename = "genTops.res";
+	writeToFile(inp, filename);
+	CallPy("generationPlot.py", filename);
+}
 
 inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem, string filename) {
 	std::ostringstream os;

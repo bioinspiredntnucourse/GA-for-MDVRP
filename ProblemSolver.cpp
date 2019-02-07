@@ -108,7 +108,19 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 	vector<SolutionInstance> mutatedChildren;
 	
 	for (i = 0; i < children.size(); i++) {
+
 		mutatedChildren.push_back(MutateChild(children[i]));
+		/*
+		//have an initial chance for mutation at all
+		float r = float(rand()) / float(RAND_MAX);
+		
+		if (r < mutationProbability * 8) {
+			mutatedChildren.push_back(MutateChild(children[i]));
+		}
+		else {
+			mutatedChildren.push_back(children[i]);
+		}
+		*/
 	}
 	return mutatedChildren;
 }
