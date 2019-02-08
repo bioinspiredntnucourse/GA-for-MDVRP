@@ -1,0 +1,51 @@
+Jeg brukte et par forskjellige crossovers ??
+
+if (testProb(BCRCCrossoverP))
+        return BCRCCrossover(parents);
+    else if (testProb(nPointCrossoverP))
+        return nPointCrossover(parents);
+    else
+        return stochasticMerge(parents);
+
+var logikken min
+
+
+BSRCCrossover var en crossover-operator som var foreslått i en av paper-ene om MDVRP
+
+nPointCrossover er den crossoveren som alternerer mellom å ta deler fra det ene kromosomet og det andre kromosomet
+
+Og så fant jeg opp en flette-sak. Og så valgte jeg én crossover-metode med en gitt sannsynlighet
+
+Men husker det var ekstremt mye shotgun koding for meg. Vi hadde som krav å komme innenfor
+5 % av perfekt score, som er veldig veldig vanskelig; så jeg forsøkte mye rart.
+
+
+Ser jeg forsøkte meg på veldig mye rart med mutations også ??
+
+if (testProb(mutationP)) {
+    const double NO_MUTATIONS = 5;
+    if (testProb(1 / NO_MUTATIONS)) {
+        reversalMutation(mdvrpgene);
+    }
+    else if (testProb(1/NO_MUTATIONS)) {
+        intraDepotMutation(mdvrpgene);
+    }
+    else if (testProb(1/NO_MUTATIONS)) {
+        interDepotMutation(mdvrpgene);
+    }
+    else if (testProb(1/NO_MUTATIONS)) {
+        // Prefer little (local) shuffle
+        if (testProb(0.67))
+            littleShuffleMut(mdvrpgene);
+        else
+            largeShuffleMut(mdvrpgene);
+
+        // Costly
+        //assert(mdvrpgene->isValid());
+    }
+    else {
+        swapMutation(mdvrpgene);
+    }
+}
+
+Ikke se for mye på detaljene her, jeg hadde misforstått mye av algoritmen til det første prosjektet
