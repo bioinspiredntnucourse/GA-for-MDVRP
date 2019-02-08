@@ -83,6 +83,7 @@ SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 			tempDepot = instance.vehicleList[i].endDepot;
 			instance.vehicleList[i].endDepot = instance.vehicleList[randomVehicleNumber].endDepot;
 			instance.vehicleList[randomVehicleNumber].endDepot = tempDepot;
+			//Recalculate fittness
 			instance.vehicleList[i].RecalculateRouteDistance();
 			instance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
 		}
@@ -93,9 +94,11 @@ SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<Customer>& route2, int N){
 	int i;
 	vector<Customer> swapRouteSection1, swapRouteSection2;
+	/*for (i = 0; i < route1.size(); i++) {
+		std::cout << route1[i].customerNumber << "   ";
+	}
+	std::cout << std::endl;*/
 	for (i = N; i < route1.size(); i++) {
-		//std::cout << route1[i].customerNumber;
-		//std::cout << std::endl;
 		swapRouteSection1.push_back(route1[i]);
 	}
 	for (i = N; i < route2.size(); i++) {
@@ -108,9 +111,11 @@ void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<C
 	}
 	for (i = 0; i < swapRouteSection1.size(); i++) {
 		route2.push_back(swapRouteSection1[i]);
-		//std::cout << route1[i].customerNumber;
-		//std::cout << std::endl;
 	}
+	/*for (i = 0; i < route1.size(); i++) {
+		std::cout << route1[i].customerNumber << "   ";
+	}
+	std::cout << std::endl;*/
 }
 
 vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> children) {

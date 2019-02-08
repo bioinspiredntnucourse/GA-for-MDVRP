@@ -66,7 +66,6 @@ public:
 
 		int i = 0;
 		while (running) {
-
 			parents = ChooseParents(population);
 			
 			//printSolutionRoute(parents[7]);
@@ -79,6 +78,7 @@ public:
 			
 			//evaluate only the newly generated children here
 			//Evaluate(children);
+
 
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());

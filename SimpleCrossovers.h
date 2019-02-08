@@ -7,6 +7,9 @@ vector<SolutionInstance> PartiallyMappedCrossover(const SolutionInstance &inst) 
 	Vehicle v1 = inst.vehicleList[rand() % inst.vehicleList.size()];
 	Vehicle v2 = inst.vehicleList[rand() % inst.vehicleList.size()];
 
+	//find and use the minimal length of the two paths
+	int pathLen = min();
+
 	//get two random points within path1, the second after the first
 	// + 2 to include the depots
 	int p1 = rand() % (v1.route.size() + 2);
@@ -18,6 +21,7 @@ vector<SolutionInstance> PartiallyMappedCrossover(const SolutionInstance &inst) 
 	if (p1 == 0) {
 		c1v1.originDepot = v1.originDepot;
 	}
+	for (int i = 0; i < v1.)
 
 	SolutionInstance child1 = inst;
 	SolutionInstance child2 = inst;
