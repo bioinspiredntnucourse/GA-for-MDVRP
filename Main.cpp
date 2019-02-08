@@ -14,6 +14,7 @@
 
 #include "ProblemSolver.h"
 
+#include "VectorCopyTest.h"
 
 int main() {
 	srand(time(NULL));
@@ -84,7 +85,9 @@ int main() {
 	*/
 
 
-	
+
+	CopyVectorTest();
+
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
