@@ -1,4 +1,4 @@
-Jeg brukte et par forskjellige crossovers ??
+Jeg brukte et par forskjellige crossovers
 
 if (testProb(BCRCCrossoverP))
         return BCRCCrossover(parents);
