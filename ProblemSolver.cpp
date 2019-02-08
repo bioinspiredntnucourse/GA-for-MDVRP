@@ -65,19 +65,24 @@ SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 	int i, randomVehicleNumber, N;
 	float randomScore;
 	vector<SolutionInstance> mutatedChildren;
+	Depot tempDepot;
 	
 	for (i = 0; i < instance.vehicleList.size(); i++) {
-		randomScore = float((rand() % 100)) / float(100);
-		std::cout << randomScore << std::endl; //PRINT! REMOVE AFTER
-		if (randomScore > (1 - this->mutationProbability)) {
-			randomVehicleNumber = rand() % instance.vehicleList.size();
+		randomScore = float(rand()) / float(RAND_MAX);
+		if ((randomScore > (1.0 - this->crossoverProbability)) && instance.vehicleList[i].route.size() != 0) {
+			do {
+				randomVehicleNumber = rand() % instance.vehicleList.size();
+			} while (instance.vehicleList[randomVehicleNumber].route.size() == 0);
 			if (instance.vehicleList[i].route.size() < instance.vehicleList[randomVehicleNumber].route.size()) {
 				N = rand() % instance.vehicleList[i].route.size();
 			}
 			else {
-				N = rand() % instance.vehicleList[randomVehicleNumber].route.size();
+					N = rand() % instance.vehicleList[randomVehicleNumber].route.size();
 			}
 			swapRouteSectionsAtIndexN(instance.vehicleList[i].route, instance.vehicleList[randomVehicleNumber].route, N);
+			tempDepot = instance.vehicleList[i].endDepot;
+			instance.vehicleList[i].endDepot = instance.vehicleList[randomVehicleNumber].endDepot;
+			instance.vehicleList[randomVehicleNumber].endDepot = tempDepot;
 		}
 	}
 	return instance;
@@ -87,6 +92,8 @@ void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<C
 	int i;
 	vector<Customer> swapRouteSection1, swapRouteSection2;
 	for (i = N; i < route1.size(); i++) {
+		//std::cout << route1[i].customerNumber;
+		//std::cout << std::endl;
 		swapRouteSection1.push_back(route1[i]);
 	}
 	for (i = N; i < route2.size(); i++) {
@@ -99,6 +106,8 @@ void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<C
 	}
 	for (i = 0; i < swapRouteSection1.size(); i++) {
 		route2.push_back(swapRouteSection1[i]);
+		//std::cout << route1[i].customerNumber;
+		//std::cout << std::endl;
 	}
 }
 
