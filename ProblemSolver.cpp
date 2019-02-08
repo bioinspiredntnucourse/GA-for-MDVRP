@@ -83,6 +83,8 @@ SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
 			tempDepot = instance.vehicleList[i].endDepot;
 			instance.vehicleList[i].endDepot = instance.vehicleList[randomVehicleNumber].endDepot;
 			instance.vehicleList[randomVehicleNumber].endDepot = tempDepot;
+			instance.vehicleList[i].RecalculateRouteDistance();
+			instance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
 		}
 	}
 	return instance;
