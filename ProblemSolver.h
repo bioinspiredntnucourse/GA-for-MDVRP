@@ -18,7 +18,7 @@ private:
 public:
 	//algorithm parameters
 	int populationSize;
-	int crossoverProbability;
+	float crossoverProbability;
 	int tournamentSize;
 	float mutationProbability;
 	int iterations;
@@ -68,17 +68,18 @@ public:
 		while (running) {
 
 			parents = ChooseParents(population);
-			//children = Crossover(parents);
-			mutatedChildren = MutateChildren(parents);
+			printSolutionRoute(parents[7]);
+			mutatedChildren = Crossover(parents);
+			printSolutionRoute(mutatedChildren[7]);
+			//mutatedChildren = MutateChildren(parents);
 			
 			//evaluate only the newly generated children here
-			Evaluate(mutatedChildren);
+			Evaluate(children);
 
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
 
 			population = SelectNextGeneration(population);
-
 			Evaluate(population);
 
 			cout << "iteration " << i << endl;
@@ -87,7 +88,7 @@ public:
 			if (i++ >= iterations)
 				running = false;
 
-			if (i % 100 == 0) {
+			if (i % 20 == 0) {
 				PlotGenerations(generationBest);
 				DrawSolutionInstance(this->problem, generationBest.back());
 			}

@@ -93,7 +93,7 @@ int main() {
 	ProblemSolver ps;
 	ps.iterations = 1000;
 	ps.populationSize = 500;
-	ps.crossoverProbability = 0;
+	ps.crossoverProbability = 0.5;
 	ps.mutationProbability = 0.01;
 	ps.tournamentSize = 5;
 

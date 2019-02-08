@@ -28,6 +28,18 @@ inline void PlotGenerations(vector<SolutionInstance> generationBests) {
 	CallPy("generationPlot.py", filename);
 }
 
+inline void printSolutionRoute(SolutionInstance instance) {
+	int i, j;
+	std::cout << "Printing solution instance route";
+	for (i = 0; i < instance.vehicleList.size(); i++) {
+		std::cout << "Route " << i << ":     ";
+		for (j = 0; j < instance.vehicleList[i].route.size(); j++) {
+			std::cout << instance.vehicleList[i].route[j].customerNumber << "   ";
+		}
+		std::cout << std::endl;
+	}
+}
+
 inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &problem, string filename) {
 	std::ostringstream os;
 	os << solutionInstance.fitness << "\n";
