@@ -142,7 +142,10 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 	return mutatedChildren;
 }
 
-//Add possible mutation swap for end depot
+SolutionInstance ProblemSolver::IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber) {
+
+}
+
 SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 	int i, j, randomCustomerNumber, randomVehicleNumber, randomDepotNumber;
 	float randomScore;
