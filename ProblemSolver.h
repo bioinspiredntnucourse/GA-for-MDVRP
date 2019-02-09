@@ -21,6 +21,7 @@ public:
 	float crossoverProbability;
 	int tournamentSize;
 	float mutationProbability;
+	float idealMutationProbability;
 	float endDepotMutationProbability;
 	float randomTournamentWinnerProbability;
 	int iterations;

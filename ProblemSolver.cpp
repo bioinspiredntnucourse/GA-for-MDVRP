@@ -1,6 +1,7 @@
 #pragma once
 #include "ProblemSolver.h"
 #include "solutionInstance.h"
+#include "SimpleCrossovers.h"
 #include <iostream>
 
 vector<SolutionInstance> ProblemSolver::InitializePopulation() {
@@ -143,7 +144,11 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 }
 
 SolutionInstance ProblemSolver::IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber) {
-
+	Customer insertCust = instance.vehicleList[vehicleNumber].route[customerNumber];
+	SolutionInstance newInstance = instance;
+	InsertEval eval = _findBestInsertionInAll(insertCust, newInstance);
+	_doInsert(eval);
+	return newInstance;
 }
 
 SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
@@ -180,6 +185,10 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 					solutionInstance.vehicleList[i].load = loadAfterMutation(solutionInstance.vehicleList[i], solutionInstance.vehicleList[i].route[j], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber]);
 					solutionInstance.vehicleList[randomVehicleNumber].load = loadAfterMutation(solutionInstance.vehicleList[randomVehicleNumber], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber], solutionInstance.vehicleList[i].route[j]);
 				}
+			}
+			randomScore = float(rand()) / float(RAND_MAX);
+			if (randomScore > (1 - this->idealMutationProbability)) {
+				solutionInstance = IdealReroutingMutation(solutionInstance, i, j);
 			}
 		}
 		//Adds abillity to mutate endDepot as well, randomly choose a new depot.
