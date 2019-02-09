@@ -33,6 +33,9 @@ inline void printSolutionRoute(SolutionInstance instance) {
 	std::cout << "Printing solution instance route";
 	for (i = 0; i < instance.vehicleList.size(); i++) {
 		std::cout << "Route " << i << ":     ";
+		//print start/end depot
+		std::cout << "[ " << instance.vehicleList[i].originDepot.depotId
+			<< ", " << instance.vehicleList[i].endDepot.depotId << " ]    ";
 		for (j = 0; j < instance.vehicleList[i].route.size(); j++) {
 			std::cout << instance.vehicleList[i].route[j].customerNumber << "   ";
 		}

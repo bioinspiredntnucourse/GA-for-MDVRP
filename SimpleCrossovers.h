@@ -93,7 +93,34 @@ InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 	return bestEval;
 }
 
-InsertEval _findBestInsertion(Customer &cust, SolutionInstance &inst) {
+InsertEval _findBestInsertionInAllWithEqualStartDepot(Customer &cust, SolutionInstance &inst, int startDepot) {
+	//find best evaluations in each route
+	vector<InsertEval> evals;
+	for (auto &route : inst.vehicleList) {
+
+		//if startDepot is right
+		if (route.originDepot.depotId == startDepot) {
+
+			//if there are no customers in a route, dont look at it
+			if (route.route.size() != 0) {
+				InsertEval eval = _findBestInsertionInPath(cust, route);
+				evals.push_back(eval);
+			}
+		}
+	}
+
+	//choose the best
+	InsertEval bestEval;
+	bestEval.insertCost = 999999999;
+	for (auto &eval : evals) {
+		if (eval.insertCost < bestEval.insertCost) {
+			bestEval = eval;
+		}
+	}
+	return bestEval;
+}
+
+InsertEval _findBestInsertionInAll(Customer &cust, SolutionInstance &inst) {
 	//find best evaluations in each route
 	vector<InsertEval> evals;
 	for (auto &route : inst.vehicleList) {
@@ -130,15 +157,28 @@ void _doInsert(InsertEval eval) {
 }
 
 //inserts the given vehicle customers from
-//TODO: should find the best of all routes in a solutionInstance
-void _bcrcInsertAllInRoute(Vehicle &insertFrom, SolutionInstance &insertInto) {
+void _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot) {
+
+	//find routes that have the same startDep
 
 	for (int i = 0; i < insertFrom.route.size(); i++) {
 		Customer insertCust = insertFrom.route[i];
-		InsertEval eval = _findBestInsertion(insertCust, insertInto);
+		InsertEval eval = _findBestInsertionInAllWithEqualStartDepot(insertCust, insertInto, startDepot);
 		_doInsert(eval);
 	}
 }
+
+void _insertAllIntoBestOfAllRoute(Vehicle &insertFrom, SolutionInstance &insertInto) {
+
+	//find routes that have the same startDep
+
+	for (int i = 0; i < insertFrom.route.size(); i++) {
+		Customer insertCust = insertFrom.route[i];
+		InsertEval eval = _findBestInsertionInAll(insertCust, insertInto);
+		_doInsert(eval);
+	}
+}
+
 
 void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 	//suggestion: randomly select by origin depot or endDepot
@@ -168,19 +208,8 @@ void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 	//and evaluate
 
 	//get all paths that starts at the given depot
-	for (auto &insertInRoute : inst2.vehicleList) {
-		if (insertInRoute.originDepot.depotId == startDepotId) {
-			//given a path with the right start depot
-			_bcrcInsertAllInRoute(*route1, inst2);
-		}
-	}
-
-	for (auto &insertInRoute : inst1.vehicleList) {
-		if (insertInRoute.originDepot.depotId == startDepotId) {
-			//given a path with the right start depot
-			_bcrcInsertAllInRoute(*route2, inst1);
-		}
-	}
+	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(*route1, inst2, startDepotId);
+	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(*route2, inst1, startDepotId);
 }
 
 
