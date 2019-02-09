@@ -8,7 +8,7 @@ typedef SolutionInstance SI;
 
 SolutionInstance genRandInst(Problem p) {
 	SolutionInstance inst(p);
-	inst.generateRandomSolution(p);
+	inst.GenerateInitialSolution(p);
 	return inst;
 }
 

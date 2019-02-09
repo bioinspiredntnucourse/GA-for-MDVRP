@@ -84,7 +84,7 @@ int main() {
 		CopyVectorTest();
 	*/
 
-	/*
+	
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
@@ -92,12 +92,13 @@ int main() {
 	ps.populationSize = 100;
 	ps.crossoverProbability = 0.0;
 	ps.mutationProbability = 0.02;
+	ps.idealMutationProbability = 0.00;
 	ps.endDepotMutationProbability = 0.0;
 	ps.randomTournamentWinnerProbability = 0.0;
 	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);
-	*/
+	
 
 	/*
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
@@ -112,7 +113,7 @@ int main() {
 	ps.SolveByRandom(p);
 	*/
 
-	BestCostRouteCrossoverTest();
+	//BestCostRouteCrossoverTest();
 
 	std::string exit;
 	std::cin >> exit;

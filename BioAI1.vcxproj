@@ -121,6 +121,7 @@
     <ClCompile Include="output.cpp" />
     <ClCompile Include="ProblemStructures.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SimpleCrossovers.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
     <ClCompile Include="ProblemSolver.cpp" />
     <ClCompile Include="Sovlers.cpp" />
