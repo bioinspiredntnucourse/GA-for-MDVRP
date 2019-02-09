@@ -142,21 +142,11 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 	return mutatedChildren;
 }
 
-/*SolutionInstance ProblemSolver::IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber) {
-	int i, j, idealVehicleNumber, idealCustomerNumber;
-	for (i = 0; i < instance.vehicleList.size(); i++) {
-		for (j = 0; j < instance.vehicleList[i].route.size(); j++) {
-			//Check total fitness for solutionInstance for each insertion
-		}
-	}
-}*/
-
 //Add possible mutation swap for end depot
 SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
-	int i, j, randomCustomerNumber, randomVehicleNumber;
+	int i, j, randomCustomerNumber, randomVehicleNumber, randomDepotNumber;
 	float randomScore;
 	Customer tempCustomer;
-	//get these first for loops out of this function and into MutateChildren function
 	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
 		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
 			randomScore = float(rand()) / float(RAND_MAX);
@@ -172,15 +162,28 @@ SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 
 				randomCustomerNumber = rand() % route.size(); //integer division by zero, happened here
 				
-				//perform mutation: switch a customer between two vehicles
-				tempCustomer = solutionInstance.vehicleList[i].route[j];
-				solutionInstance.vehicleList[i].route[j] = solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber];
-				solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber] = tempCustomer;
-				
-				//recalculate vehicle paths after mutation
-				solutionInstance.vehicleList[i].RecalculateRouteDistance();
-				solutionInstance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
+				if (routeMutationValid(solutionInstance.vehicleList[i], solutionInstance.vehicleList[i].route[j], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber])
+					&& routeMutationValid(solutionInstance.vehicleList[randomVehicleNumber], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber],  solutionInstance.vehicleList[i].route[j])) {
+					//perform mutation: switch a customer between two vehicles
+					tempCustomer = solutionInstance.vehicleList[i].route[j];
+					solutionInstance.vehicleList[i].route[j] = solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber];
+					solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber] = tempCustomer;
+
+					//recalculate vehicle paths after mutation
+					solutionInstance.vehicleList[i].RecalculateRouteDistance();
+					solutionInstance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
+
+					//recalculate loads after mutation
+					solutionInstance.vehicleList[i].load = loadAfterMutation(solutionInstance.vehicleList[i], solutionInstance.vehicleList[i].route[j], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber]);
+					solutionInstance.vehicleList[randomVehicleNumber].load = loadAfterMutation(solutionInstance.vehicleList[randomVehicleNumber], solutionInstance.vehicleList[randomVehicleNumber].route[randomCustomerNumber], solutionInstance.vehicleList[i].route[j]);
+				}
 			}
+		}
+		//Adds abillity to mutate endDepot as well, randomly choose a new depot.
+		randomScore = float(rand()) / float(RAND_MAX);
+		if (randomScore > (1 - this->endDepotMutationProbability)) {
+			randomDepotNumber = rand() % problem.depots.size();
+			solutionInstance.vehicleList[i].endDepot = problem.depots[randomDepotNumber];
 		}
 	}
 	return solutionInstance;
@@ -207,8 +210,9 @@ float ProblemSolver::CalculateFitness(SolutionInstance& solutionInstance) {
 
 vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> population) {
 	//BUG: tournament size seems to have to be half of the population size
-	int i, j, groupCount, numWinners;
-	int tournamentLeaderScore;
+	int i, j, groupCount;
+	int tournamentLeaderScore, randomWinnerNumber;
+	float randomScore;
 	vector<SolutionInstance> winners;
 
 	if (population.size() % tournamentSize > 0) {
@@ -232,12 +236,45 @@ vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> pop
 				currentWinner = currentInstance;
 			}
 		}
+		randomScore = float(rand()) / float(RAND_MAX);
+		if (randomScore > (1 - this->randomTournamentWinnerProbability)) {
+			randomWinnerNumber = rand() % tournamentSize;
+			currentWinner = &population[(i*tournamentSize) + randomWinnerNumber];
+		}
 		winners.push_back(*currentWinner);
 	}
 	return winners;
 }
 
 
+//Icludes solution for weighting the parents based off of 
+/*vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
+	int i, j, totalFitness;
+	vector<int> copyPerParent;
+	vector<SolutionInstance> winnerCopys;
+
+	//calculating total fitness
+	totalFitness = 0;
+	for (i = 0; i < winners.size(); i++) {
+		totalFitness = totalFitness + winners[i].fitness;
+	}
+
+	for (i = 0; i < winners.size(); i++) {
+		std::cout << round(populationSize*(float(winners[i].fitness) / float(totalFitness))) << std::endl;
+		copyPerParent.push_back(round(populationSize*(float(winners[i].fitness) / float(totalFitness))));
+		//copyPerParent.push_back(tournamentSize);
+	}
+
+	for (i = 0; i < winners.size(); i++) {
+		for (j = 0; j < copyPerParent[i]; j++) {
+			winnerCopys.push_back(winners[i]);
+			if (winnerCopys.size() >= populationSize) {
+				break;
+			}
+		}
+	}
+	return winnerCopys;
+}*/
 vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
 	int i, j, copyPerParent;
 	vector<SolutionInstance> winnerCopys;
@@ -251,4 +288,21 @@ vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winne
 		}
 	}
 	return winnerCopys;
+}
+
+int ProblemSolver::loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
+	int updatedLoad;
+	updatedLoad = vehicle.load - currentCustomer.demand + newCustomer.demand;
+	return updatedLoad;
+}
+
+bool ProblemSolver::routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
+	bool mutationValid;
+	int updatedLoad;
+	mutationValid = false;
+	updatedLoad = loadAfterMutation(vehicle, currentCustomer, newCustomer);
+	if (updatedLoad <= vehicle.capacity) {
+		mutationValid = true;
+	}
+	return mutationValid;
 }
