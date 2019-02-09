@@ -21,6 +21,8 @@ public:
 	float crossoverProbability;
 	int tournamentSize;
 	float mutationProbability;
+	float endDepotMutationProbability;
+	float randomTournamentWinnerProbability;
 	int iterations;
 
 	inline void SolveByRandom(const Problem &problem) {
@@ -73,7 +75,6 @@ public:
 			children = Crossover(parents);
 			
 			//printSolutionRoute(mutatedChildren[7]);
-			
 			mutatedChildren = MutateChildren(children);
 			
 			//evaluate only the newly generated children here
@@ -94,9 +95,9 @@ public:
 			if (i++ >= iterations)
 				running = false;
 
-			if (i % 10 == 0) {
+			if (i % 50 == 0) {
 				PlotGenerations(generationBest);
-				DrawSolutionInstance(this->problem, generationBest.back());
+				//DrawSolutionInstance(this->problem, generationBest.back());
 			}
 		}
 
@@ -138,6 +139,7 @@ public:
 
 	//choose individuals and mutate them
 	vector<SolutionInstance> MutateChildren(vector<SolutionInstance> population);
+	SolutionInstance IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber);
 	SolutionInstance MutateChild(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"
@@ -152,6 +154,9 @@ public:
 
 
 	//utilities
-	SolutionInstance GenerateRandomSolution(vector<Customer> customers);
+	//SolutionInstance GenerateInitialSolution(Problem problem);
 	void swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<Customer>& route2, int N);
+	int loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);
+	bool routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);
+
 };

@@ -31,6 +31,7 @@ public:
 
 	SolutionInstance(Problem problem); //Generate structure, without solution
 	void generateRandomSolution(Problem problem);
+	void GenerateInitialSolution(Problem problem);
 };
 
 
