@@ -325,3 +325,44 @@ bool ProblemSolver::routeMutationValid(Vehicle vehicle, Customer currentCustomer
 	}
 	return mutationValid;
 }
+
+SolutionInstance ProblemSolver::FindBestInstance(vector<SolutionInstance> instances) {
+	if (instances.size() == 0) throw invalid_argument("no instencesin vector");
+
+	float lowestFitness = instances[0].fitness;
+	int lowestFitnessIndex = 0;
+
+	for (int i = 1; i < instances.size(); i++) {
+		if (instances[i].fitness < lowestFitness) {
+			lowestFitness = instances[i].fitness;
+			lowestFitnessIndex = i;
+		}
+	}
+
+	return instances[lowestFitnessIndex];
+}
+void ProblemSolver::DrawSolutions(vector<SolutionInstance> solutions) {
+	for (int i = 0; i < solutions.size(); i++) {
+		DrawSolutionInstance(this->problem, solutions[i]);
+	}
+}
+
+void ProblemSolver::SolveByRandom(const Problem &problem) {
+	this->problem = problem;
+	vector<SolutionInstance> population;
+
+	SolutionInstance bestInstance(this->problem);
+	bestInstance.fitness = 999999999;
+
+	for (int i = 0; i < iterations; i++) {
+		population = InitializePopulation();
+		Evaluate(population);
+		SolutionInstance inst = FindBestInstance(population);
+		if (inst.fitness < bestInstance.fitness) {
+			bestInstance = inst;
+		}
+
+		cout << "iteration " << i << endl;
+	}
+	DrawSolutionInstance(this->problem, bestInstance);
+}
