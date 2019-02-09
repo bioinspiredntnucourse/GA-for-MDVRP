@@ -2,6 +2,7 @@
 #include "ProblemSolver.h"
 #include "solutionInstance.h"
 #include <iostream>
+#include "SimpleCrossovers.h"
 
 vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	vector<SolutionInstance> population;// = vector<SolutionInstance>(this->populationSize);
@@ -54,12 +55,30 @@ vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInst
 }
 
 
-vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> copys) {
-	int i;
-	for (i = 0; i < copys.size(); i++) {
-		copys[i] = IndividualCrossover(copys[i]);
+vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> parents) {
+	
+	vector<SolutionInstance> children;
+
+	while (parents.size() > 1) {
+		//copys[i] = IndividualCrossover(copys[i]);
+
+		//find a parent1 and remove it from parents
+		int par1Ind = rand() % parents.size();
+		SolutionInstance par1 = parents[par1Ind];
+		parents.erase(parents.begin() + par1Ind);
+
+		//find a parent 2 and remove it
+		int par2Ind = rand() % parents.size();
+		SolutionInstance par2 = parents[par2Ind];
+		parents.erase(parents.begin() + par2Ind);
+
+		//modifies inplace
+		BestCostRouteCrossover(par1, par2);
+
+		children.push_back(par1);
+		children.push_back(par2);
 	}
-	return copys;
+	return children;
 }
 
 SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
