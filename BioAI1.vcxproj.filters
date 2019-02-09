@@ -71,5 +71,14 @@
     <ClInclude Include="ProblemSolverTest.h">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleCrossovers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorCopyTest.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossoverTest.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

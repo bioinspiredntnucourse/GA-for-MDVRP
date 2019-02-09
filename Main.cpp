@@ -14,6 +14,9 @@
 
 #include "ProblemSolver.h"
 
+#include "VectorCopyTest.h"
+
+#include "CrossoverTest.h"
 
 int main() {
 	srand(time(NULL));
@@ -78,14 +81,11 @@ int main() {
 
 	DrawSolution(problemfile, solutionfile);
 
-
-
-
+		CopyVectorTest();
 	*/
 
-
-	
-	Problem p = LoadProblem("data_files\\Data Files\\p21");
+	/*
+	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
 	ps.iterations = 1000;
@@ -97,7 +97,7 @@ int main() {
 	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);
-	
+	*/
 
 	/*
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
@@ -111,6 +111,8 @@ int main() {
 
 	ps.SolveByRandom(p);
 	*/
+
+	BestCostRouteCrossoverTest();
 
 	std::string exit;
 	std::cin >> exit;

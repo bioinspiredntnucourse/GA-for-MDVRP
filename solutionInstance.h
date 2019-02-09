@@ -37,5 +37,6 @@ public:
 
 
 float distanceBetweenCoordinates(int x1, int y1, int x2, int y2);
+float distanceBetween(Location &loc1, Location &loc2);
 
 void testRand();

@@ -68,18 +68,23 @@ public:
 
 		int i = 0;
 		while (running) {
-
 			parents = ChooseParents(population);
+			
 			//printSolutionRoute(parents[7]);
+			
 			children = Crossover(parents);
+			
 			//printSolutionRoute(mutatedChildren[7]);
 			mutatedChildren = MutateChildren(children);
 			
 			//evaluate only the newly generated children here
-			Evaluate(mutatedChildren);
+			//Evaluate(children);
+
 
 			//add mutated children to the population
 			population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
+
+			Evaluate(population);
 
 			population = SelectNextGeneration(population);
 			Evaluate(population);

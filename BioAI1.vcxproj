@@ -127,12 +127,15 @@
   <ItemGroup>
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsTest.h" />
+    <ClInclude Include="CrossoverTest.h" />
+    <ClInclude Include="VectorCopyTest.h" />
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />
     <ClInclude Include="output.h" />
     <ClInclude Include="ProblemSolverTest.h" />
     <ClInclude Include="ProblemStructures.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SimpleCrossovers.h" />
     <ClInclude Include="solutionInstance.h" />
     <ClInclude Include="ProblemSolver.h" />
   </ItemGroup>
