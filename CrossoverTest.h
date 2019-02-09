@@ -71,7 +71,7 @@ void bcrcInsertAllInRouteTest(Problem p) {
 	println("vehicle into");
 	printSolutionRoute(si2);
 
-	_bcrcInsertAllInRoute(vfrom, si2);
+	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(vfrom, si2, 0);
 
 	println("---AFTER----");
 	println("vehicle from");
