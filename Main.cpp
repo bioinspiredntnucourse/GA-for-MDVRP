@@ -85,13 +85,13 @@ int main() {
 
 
 	
-	Problem p = LoadProblem("data_files\\Data Files\\p01");
+	Problem p = LoadProblem("data_files\\Data Files\\p02");
 
 	ProblemSolver ps;
 	ps.iterations = 1000;
-	ps.populationSize = 500;
-	ps.crossoverProbability = 0.1;
-	ps.mutationProbability = 0.01;
+	ps.populationSize = 100;
+	ps.crossoverProbability = 0.0;
+	ps.mutationProbability = 0.015;
 	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);

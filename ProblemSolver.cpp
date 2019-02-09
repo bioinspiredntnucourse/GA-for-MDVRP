@@ -8,9 +8,10 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	population.reserve(populationSize);
 
 	for (unsigned int i = 0; i < populationSize; i++) {
+		std::cout << "New Instance" << std::endl;
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
-		sol.generateRandomSolution(this->problem);
+		sol.GenerateInitialSolution(this->problem);
 
 		population.push_back(sol);
 	}
@@ -141,10 +142,21 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 	return mutatedChildren;
 }
 
+/*SolutionInstance ProblemSolver::IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber) {
+	int i, j, idealVehicleNumber, idealCustomerNumber;
+	for (i = 0; i < instance.vehicleList.size(); i++) {
+		for (j = 0; j < instance.vehicleList[i].route.size(); j++) {
+			//Check total fitness for solutionInstance for each insertion
+		}
+	}
+}*/
+
+//Add possible mutation swap for end depot
 SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 	int i, j, randomCustomerNumber, randomVehicleNumber;
 	float randomScore;
 	Customer tempCustomer;
+	//get these first for loops out of this function and into MutateChildren function
 	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
 		for (j = 0; j < solutionInstance.vehicleList[i].route.size(); j++) {
 			randomScore = float(rand()) / float(RAND_MAX);
@@ -240,34 +252,3 @@ vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winne
 	}
 	return winnerCopys;
 }
-
-/*SolutionInstance ProblemSolver::GenerateRandomSolution(Problem problem) {
-	SolutionInstance solutionInstance(problem);
-	std::vector<Customer> customers;
-	customers = problem.customers;
-
-	bool vehicleAvailable;
-	int i, j, customerCount, vehicleCount, randomVehicleNumber, randomDepotNumber;
-	customerCount = customers.size();
-	vehicleCount = solutionInstance.vehicleList.size();
-
-	for (i = 0; i < customerCount; i++) {
-
-		randomVehicleNumber = rand() % vehicleCount;
-		vehicleAvailable = solutionInstance.vehicleList[randomVehicleNumber].vehicleAvailable(customers[i]);
-
-		if (vehicleAvailable) {
-			solutionInstance.vehicleList[randomVehicleNumber].addCustomer2VehicleRoute(customers[i]);
-		}
-		else {
-			i--;
-		}
-	}
-
-	for (j = 0; j < solutionInstance.vehicleList.size(); j++) {
-		randomDepotNumber = rand() % problem.depots.size();
-		solutionInstance.vehicleList[j].endDepot = problem.depots[randomDepotNumber];
-	}
-
-}
-*/

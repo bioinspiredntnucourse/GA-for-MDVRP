@@ -149,6 +149,57 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 	
 }
 
+void SolutionInstance::GenerateInitialSolution(Problem problem) {
+	bool vehicleAvailable, insertedValue;
+	int i, j, k, vehicleNumber, currentSize;
+	float distance;
+	vector<float> shortestDistances;
+	vector<Depot> closestDepots;
+	for (i = 0; i < problem.customers.size(); i++) {
+		closestDepots.clear();
+		shortestDistances.clear();
+		for (j = 0; j < problem.depots.size(); j++) {
+			insertedValue = false;
+			distance = distanceBetweenCoordinates(problem.depots[j].x, problem.depots[j].y, problem.customers[i].x, problem.customers[i].y);
+			if (closestDepots.size() == 0) {
+				closestDepots.push_back(problem.depots[j]);
+				shortestDistances.push_back(distance);
+			}
+			else{
+				currentSize = closestDepots.size();
+				for (k = 0; k < currentSize; k++) {
+					if (distance < shortestDistances[k]) {
+						shortestDistances.insert(shortestDistances.begin() + k, distance);
+						closestDepots.insert(closestDepots.begin() + k, problem.depots[j]);
+						insertedValue = true;
+					}
+				}
+				if (!insertedValue) {
+					shortestDistances.push_back(distance);
+					closestDepots.push_back(problem.depots[j]);
+				}
+			}
+		}
+		vehicleAvailable = false;
+		for (j = 0; j < closestDepots.size(); j++) {
+			if (vehicleAvailable == true) {
+				break;
+			}
+			for (k = 0; k < closestDepots[j].vehicleCount; k++) {
+				vehicleNumber = (closestDepots[j].depotId)*(closestDepots[j].vehicleCount) + k;
+				vehicleAvailable = vehicleList[vehicleNumber].vehicleAvailable(problem.customers[i]);
+				if (vehicleAvailable) {
+					vehicleList[vehicleNumber].addCustomer2VehicleRoute(problem.customers[i]);
+					break;
+				}
+			}
+		}
+	}
+	for (i = 0; i < vehicleList.size(); i++) {
+		vehicleList[i].endDepot = vehicleList[i].originDepot;
+	}
+}
+
 float distanceBetweenCoordinates(int x1, int y1, int x2, int y2) {
 	float distance;
 	distance = sqrt( pow(x2 - x1, 2) + pow(y2 - y1, 2) );
