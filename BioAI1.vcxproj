@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsTest.h" />
+    <ClInclude Include="CrossoverTest.h" />
     <ClInclude Include="VectorCopyTest.h" />
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />

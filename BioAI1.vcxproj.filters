@@ -77,5 +77,8 @@
     <ClInclude Include="VectorCopyTest.h">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="CrossoverTest.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
