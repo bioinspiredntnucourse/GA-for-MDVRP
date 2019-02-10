@@ -172,6 +172,7 @@ void SolutionInstance::GenerateInitialSolution(Problem problem) {
 						shortestDistances.insert(shortestDistances.begin() + k, distance);
 						closestDepots.insert(closestDepots.begin() + k, problem.depots[j]);
 						insertedValue = true;
+						break;
 					}
 				}
 				if (!insertedValue) {
@@ -180,6 +181,12 @@ void SolutionInstance::GenerateInitialSolution(Problem problem) {
 				}
 			}
 		}
+		//Printing SHortest Distance
+		//for (j = 0; j < shortestDistances.size(); j++) {
+		//	std::cout << shortestDistances[j] << "      ";
+		//}
+		//std::cout << std::endl;
+
 		vehicleAvailable = false;
 		for (j = 0; j < closestDepots.size(); j++) {
 			if (vehicleAvailable == true) {
@@ -189,6 +196,7 @@ void SolutionInstance::GenerateInitialSolution(Problem problem) {
 				vehicleNumber = (closestDepots[j].depotId)*(closestDepots[j].vehicleCount) + k;
 				vehicleAvailable = vehicleList[vehicleNumber].vehicleAvailable(problem.customers[i]);
 				if (vehicleAvailable) {
+					//std::cout << "vehicleNumber: " << vehicleNumber << "     depotId: " << closestDepots[j].depotId << "        load: " << vehicleList[vehicleNumber].load << "          customerId: " << problem.customers[i].customerNumber <<std::endl;
 					vehicleList[vehicleNumber].addCustomer2VehicleRoute(problem.customers[i]);
 					break;
 				}
