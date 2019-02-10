@@ -1,6 +1,20 @@
 #pragma once
 #include "ProblemSolver.h"
 
+void _checkLoad(vector<SolutionInstance> insts) {
+	bool nogood = false;
+	for (auto &inst : insts) {
+		for (auto &v : inst.vehicleList) {
+			if (v.load > v.capacity || v.load > v.originDepot.maxVehicleCapacity) {
+				cout << "vehicle overload, load: " << v.load << " v capacity: " << v.capacity << " depot capacity: " << v.originDepot.maxVehicleCapacity << endl;
+				nogood = true;
+			}
+		}
+	}
+	if (!nogood)
+		cout << "NO OVERLOAD :)" << endl;
+}
+
 void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	this->problem = problem;
 
@@ -25,8 +39,13 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	int i = 0;
 	while (running) {
 		parents = ChooseParents(population);
-		children = parents;// Crossover(parents);
+		_checkLoad(parents);
+		children = Crossover(parents);
+		_checkLoad(children);
 		mutatedChildren = MutateChildren(children);
+		_checkLoad(mutatedChildren);
+
+
 
 		//evaluate only the newly generated children here
 		//Evaluate(children);
@@ -34,6 +53,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 
 		//add mutated children to the population
 		population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
+		_checkLoad(population);
 
 		Evaluate(population);
 

@@ -12,8 +12,8 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	for (unsigned int i = 0; i < populationSize; i++) {
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
-		sol.GenerateInitialSolution(this->problem);
-		//sol.generateRandomSolution(this->problem);
+		//sol.GenerateInitialSolution(this->problem);
+		sol.generateRandomSolution(this->problem);
 
 		population.push_back(sol);
 	}

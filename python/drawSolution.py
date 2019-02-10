@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 
-matplotlib.use()
+#matplotlib.use("wx")
 from pylab import *
 
 #plt = matplotlib.pyplot;
 
-matplotlib.use("wx")
+
 
 def main():
     inputlength = 2

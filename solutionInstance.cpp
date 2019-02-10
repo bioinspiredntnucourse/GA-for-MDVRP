@@ -59,7 +59,7 @@ float Vehicle::calculateDistance2Customer(Customer customer) {
 		y1 = this->route.back().y;
 	}
 	extraDistance = distanceBetweenCoordinates(x1, y1, x2, y2);
-	extraDistance = roundf(extraDistance* 100) / 100;
+	//extraDistance = roundf(extraDistance* 100) / 100;
 	return extraDistance;
 }
 
