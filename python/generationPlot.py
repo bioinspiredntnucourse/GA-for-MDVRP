@@ -20,4 +20,6 @@ content = fileo.read()
 genTops = [float(x) for x in content.split(",")]
 
 plt.plot(genTops)
+
+
 plt.show()

@@ -39,6 +39,9 @@
     <ClCompile Include="ProblemSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sovlers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SimpleCrossovers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

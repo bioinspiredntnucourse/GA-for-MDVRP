@@ -124,6 +124,7 @@
     <ClCompile Include="SimpleCrossovers.cpp" />
     <ClCompile Include="solutionInstance.cpp" />
     <ClCompile Include="ProblemSolver.cpp" />
+    <ClCompile Include="Sovlers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h" />

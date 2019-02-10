@@ -14,6 +14,7 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
 		sol.GenerateInitialSolution(this->problem);
+		//sol.generateRandomSolution(this->problem);
 
 		population.push_back(sol);
 	}
@@ -28,9 +29,7 @@ vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> p
 	vector<SolutionInstance> replicatedWinners = Replicate(winners, populationSize);
 	return replicatedWinners;
 }
-vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
-	return vector<SolutionInstance>();
-}
+
 //manipulate the population given the evaluations
 vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population) {
 	vector<SolutionInstance> currentSolutions;
@@ -57,11 +56,12 @@ vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInst
 
 
 vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> parents) {
-	
-	vector<SolutionInstance> children;
 
+	//best cost route crossover
+	vector<SolutionInstance> children;
+	children.reserve(parents.size());
+	
 	while (parents.size() > 1) {
-		//copys[i] = IndividualCrossover(copys[i]);
 
 		//find a parent1 and remove it from parents
 		int par1Ind = rand() % parents.size();
@@ -140,6 +140,7 @@ void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<C
 }
 
 vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> children) {
+	//TODO: include a swap two customers in path muatation
 	int i;
 	float randomScore;
 	vector<SolutionInstance> mutatedChildren;
@@ -224,17 +225,22 @@ void ProblemSolver::Evaluate(vector<SolutionInstance> &population) {
 	int i;
 	int solutionFitness;
 	for (i = 0; i < population.size(); i++) {
+
+
 		solutionFitness = this->CalculateFitness(population[i]);
 		population[i].fitness = solutionFitness;
 	}
 }
 
-
 float ProblemSolver::CalculateFitness(SolutionInstance& solutionInstance) {
 	int i;
 	float fitness = 0;
 	for (i = 0; i < solutionInstance.vehicleList.size(); i++) {
-		fitness += solutionInstance.vehicleList[i].routeRange;
+		Vehicle* v = &solutionInstance.vehicleList[i];
+		//first update routeRange by calculating route distances
+		v->RecalculateRouteDistance();
+
+		fitness += v->routeRange;
 	}
 	return fitness;
 }
@@ -277,6 +283,60 @@ vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> pop
 	return winners;
 }
 
+vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
+	int i, j, copyPerParent;
+	vector<SolutionInstance> winnerCopys;
+	copyPerParent = tournamentSize;
+	for (i = 0; i < winners.size(); i++) {
+		for (j = 0; j < copyPerParent; j++) {
+			winnerCopys.push_back(winners[i]);
+			if (winnerCopys.size() >= populationSize) {
+				break;
+			}
+		}
+	}
+	return winnerCopys;
+}
+
+int loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
+	int updatedLoad;
+	updatedLoad = vehicle.load - currentCustomer.demand + newCustomer.demand;
+	return updatedLoad;
+}
+
+bool routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
+	bool mutationValid;
+	int updatedLoad;
+	mutationValid = false;
+	updatedLoad = loadAfterMutation(vehicle, currentCustomer, newCustomer);
+	if (updatedLoad <= vehicle.capacity) {
+		mutationValid = true;
+	}
+	return mutationValid;
+}
+
+SolutionInstance ProblemSolver::FindBestInstance(vector<SolutionInstance> instances) {
+	if (instances.size() == 0) throw invalid_argument("no instencesin vector");
+
+	float lowestFitness = instances[0].fitness;
+	int lowestFitnessIndex = 0;
+
+	for (int i = 1; i < instances.size(); i++) {
+		if (instances[i].fitness < lowestFitness) {
+			lowestFitness = instances[i].fitness;
+			lowestFitnessIndex = i;
+		}
+	}
+
+	return instances[lowestFitnessIndex];
+}
+void ProblemSolver::DrawSolutions(vector<SolutionInstance> solutions) {
+	for (int i = 0; i < solutions.size(); i++) {
+		DrawSolutionInstance(this->problem, solutions[i]);
+	}
+}
+
+
 
 //Icludes solution for weighting the parents based off of 
 /*vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
@@ -306,34 +366,3 @@ vector<SolutionInstance> ProblemSolver::Tournaments(vector<SolutionInstance> pop
 	}
 	return winnerCopys;
 }*/
-vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
-	int i, j, copyPerParent;
-	vector<SolutionInstance> winnerCopys;
-	copyPerParent = tournamentSize;
-	for (i = 0; i < winners.size(); i++) {
-		for (j = 0; j < copyPerParent; j++) {
-			winnerCopys.push_back(winners[i]);
-			if (winnerCopys.size() >= populationSize) {
-				break;
-			}
-		}
-	}
-	return winnerCopys;
-}
-
-int ProblemSolver::loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
-	int updatedLoad;
-	updatedLoad = vehicle.load - currentCustomer.demand + newCustomer.demand;
-	return updatedLoad;
-}
-
-bool ProblemSolver::routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer) {
-	bool mutationValid;
-	int updatedLoad;
-	mutationValid = false;
-	updatedLoad = loadAfterMutation(vehicle, currentCustomer, newCustomer);
-	if (updatedLoad <= vehicle.capacity) {
-		mutationValid = true;
-	}
-	return mutationValid;
-}

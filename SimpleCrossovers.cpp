@@ -1,5 +1,7 @@
 #include "solutionInstance.h"
 #include "SimpleCrossovers.h"
+#include "output.h"
+#include "ProblemSolver.h"
 
 void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 	for (int vehicleInd = 0; vehicleInd < inst.vehicleList.size(); vehicleInd++) {
@@ -10,6 +12,7 @@ void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 
 			if ((*route)[custInd].customerNumber == cust.customerNumber) {
 				//erase the customer if it is equal to the given
+				inst.vehicleList[vehicleInd].load -= cust.demand;
 				route->erase(route->begin() + custInd);
 			}
 		}
@@ -36,8 +39,13 @@ float _evaluateInsertion(Customer &c, Vehicle &v, int insertPos) {
 	float oldEval;
 	float newEval;
 
+	//if the route length is zero, try to place between depots
+	if (insertPos == 0 && v.route.size() == 0) {
+		newEval = distanceBetween(v.originDepot, c) + distanceBetween(c, v.endDepot);
+		oldEval = distanceBetween(v.originDepot, v.endDepot);
+	}
 	//if we insert at first position, it is between the first depot and first car
-	if (insertPos == 0) {
+	else if (insertPos == 0) {
 		newEval = distanceBetween(v.originDepot, c) + distanceBetween(c, v.route[0]);
 		oldEval = distanceBetween(v.originDepot, v.route[0]);
 	}
@@ -52,20 +60,18 @@ float _evaluateInsertion(Customer &c, Vehicle &v, int insertPos) {
 		newEval = distanceBetween(v.route[insertPos - 1], c) + distanceBetween(c, v.route[insertPos]);
 		oldEval = distanceBetween(v.route[insertPos - 1], v.route[insertPos]);
 	}
-	return oldEval - newEval;
+
+	//lower is better
+	return newEval - oldEval; // oldEval - newEval;
 }
 
 InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 	InsertEval bestEval;
 	//generate a stupidly bad solution
-	bestEval.insertCost = 99999999999;
-	bestEval.insertCustomer = &cust;
+	bestEval.insertCost = 99999.9;
+	bestEval.insertCustomer = cust;
 	bestEval.insertInVehicle = &insertInRoute;
 	bestEval.insertIndex = 0;
-
-	if (insertInRoute.route.size() == 0) {
-		return bestEval;
-	}
 
 	for (int i = 0; i < insertInRoute.route.size() + 1; i++) {
 		//test insertions from pos 0 to insertInRoute.size()
@@ -73,10 +79,17 @@ InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 		//cout << "evaluation: " << eval << endl;
 
 		if (eval < bestEval.insertCost) {
-			bestEval.insertCost = eval;
-			bestEval.insertIndex = i;
-			bestEval.insertInVehicle = &insertInRoute;
-			bestEval.insertCustomer = &cust;
+
+			//check if insertion is valid with regards to max capacity
+			float maxLoad = insertInRoute.originDepot.maxVehicleCapacity;
+			//cout << "route load: " << insertInRoute.load << " custDemaand: " << cust.demand << " maxLoad: " << maxLoad << endl;
+			
+			if (insertInRoute.load + cust.demand <= maxLoad) {
+				bestEval.insertCost = eval;
+				bestEval.insertIndex = i;
+				bestEval.insertInVehicle = &insertInRoute;
+				bestEval.insertCustomer = cust;
+			}
 		}
 
 	}
@@ -92,21 +105,25 @@ InsertEval _findBestInsertionInAllWithEqualStartDepot(Customer &cust, SolutionIn
 		if (route.originDepot.depotId == startDepot) {
 
 			//if there are no customers in a route, dont look at it
-			if (route.route.size() != 0) {
-				InsertEval eval = _findBestInsertionInPath(cust, route);
-				evals.push_back(eval);
-			}
+			InsertEval eval = _findBestInsertionInPath(cust, route);
+			evals.push_back(eval);
 		}
 	}
 
+	if (evals.size() == 0) {
+		throw invalid_argument("no evaluations found, should not happen, as even emty routs are tried inserted");
+	}
+	//FIXED BUG: eval size should not be 0!
+
 	//choose the best
 	InsertEval bestEval;
-	bestEval.insertCost = 999999999;
+	bestEval.insertCost = 99999.9;
 	for (auto &eval : evals) {
 		if (eval.insertCost < bestEval.insertCost) {
 			bestEval = eval;
 		}
 	}
+	//cout << "best customer found: " << bestEval.insertCustomer.customerNumber << endl;
 	return bestEval;
 }
 
@@ -133,29 +150,43 @@ InsertEval _findBestInsertionInAll(Customer &cust, SolutionInstance &inst) {
 	return bestEval;
 }
 
+void myPrintln(Vehicle &v) {
+	cout << "Vehicle, id: " << v.id << " start: " << v.originDepot.depotId << " end: " << v.endDepot.depotId
+		<< " customers: ";
+	for (auto &cust : v.route) {
+		cout << cust.customerNumber << " ";
+	}
+	cout << endl;
+}
+
 void _doInsert(InsertEval eval) {
 	vector<Customer> *r = &eval.insertInVehicle->route;
 
+	//cout << "customer: " << eval.insertCustomer.customerNumber << " intoRouteSize: " << eval.insertInVehicle->route.size(), << endl;
+	//myPrintln(*eval.insertInVehicle);
+
 	//if we are at the index outside the vector, push
 	if (eval.insertIndex == r->size()) {
-		r->push_back(*eval.insertCustomer);
+		r->push_back(eval.insertCustomer);
 	}
 	else {
 		//inserts before the given index
-		r->insert(r->begin() + eval.insertIndex, *eval.insertCustomer);
+		r->insert(r->begin() + eval.insertIndex, eval.insertCustomer);
 	}
+
+	//add the load of the customer
+	eval.insertInVehicle->load += eval.insertCustomer.demand;
 }
 
 //inserts the given vehicle customers from
-void _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot) {
-
-	//find routes that have the same startDep
-
+vector<InsertEval> _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot) {
+	vector<InsertEval> bestEvaluations;
 	for (int i = 0; i < insertFrom.route.size(); i++) {
 		Customer insertCust = insertFrom.route[i];
 		InsertEval eval = _findBestInsertionInAllWithEqualStartDepot(insertCust, insertInto, startDepot);
-		_doInsert(eval);
+		bestEvaluations.push_back(eval);
 	}
+	return bestEvaluations;
 }
 
 void _insertAllIntoBestOfAllRoute(Vehicle &insertFrom, SolutionInstance &insertInto) {
@@ -169,7 +200,12 @@ void _insertAllIntoBestOfAllRoute(Vehicle &insertFrom, SolutionInstance &insertI
 	}
 }
 
-
+void _printInserts(InsertEval &ins) {
+	cout << "insert eval" << endl;
+	cout << "cost: " << ins.insertCost << " custNumb: " << ins.insertCustomer.customerNumber << " insertAt: " << ins.insertIndex
+		<< " vehicle: ";
+	myPrintln(*ins.insertInVehicle);
+}
 void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 	//suggestion: randomly select by origin depot or endDepot
 
@@ -182,24 +218,36 @@ void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 	int startDepotId = rand() % depotCount; // inst1.vehicleList[rand() % inst1.vehicleList.size()].originDepot.depotId;
 
 	//choose a random route from each inst with valid startDepot
-	Vehicle *route1, *route2;
+	Vehicle *_route1, *_route2;
 	do {
-		route1 = &inst1.vehicleList[rand() % inst1.vehicleList.size()];
-	} while (route1->originDepot.depotId != startDepotId);
+		_route1 = &inst1.vehicleList[rand() % inst1.vehicleList.size()];
+	} while (_route1->originDepot.depotId != startDepotId);
 	do {
-		route2 = &inst2.vehicleList[rand() % inst2.vehicleList.size()];
-	} while (route1->originDepot.depotId != startDepotId);
+		_route2 = &inst2.vehicleList[rand() % inst2.vehicleList.size()];
+	} while (_route2->originDepot.depotId != startDepotId);
+
+	Vehicle route1 = *_route1;
+	Vehicle route2 = *_route2;
 
 	//remove route1 from inst2 and route2 from inst1
-	_removeRouteFromInstance(*route1, inst2);
-	_removeRouteFromInstance(*route2, inst1);
+	_removeRouteFromInstance(route1, inst2);
+	_removeRouteFromInstance(route2, inst1);
 
-	//try to insert the customers from the route1 at different locations in inst2 where originDepot is valid
-	//and evaluate
+	//get the best insertions in both parents
+	//dont modify before both are evaluated, because the input route might change
+	vector<InsertEval> child1Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route1, inst2, startDepotId);
+	vector<InsertEval> child2Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route2, inst1, startDepotId);
 
-	//get all paths that starts at the given depot
-	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(*route1, inst2, startDepotId);
-	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(*route2, inst1, startDepotId);
+	for (auto &inserts1 : child1Inserts) {
+		//cout << "inserting for 1" << endl;
+		//_printInserts(inserts1);
+		_doInsert(inserts1);
+	}
+	for (auto &inserts2 : child2Inserts) {
+		//cout << "inserting for 2" << endl;
+		//_printInserts(inserts2);
+		_doInsert(inserts2);
+	}
 }
 
 
