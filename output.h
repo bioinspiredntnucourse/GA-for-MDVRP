@@ -30,7 +30,7 @@ inline void PlotGenerations(vector<SolutionInstance> generationBests) {
 
 inline void printSolutionRoute(SolutionInstance instance) {
 	int i, j;
-	std::cout << "Printing solution instance route";
+	std::cout << "Printing solution instance route" << endl;
 	for (i = 0; i < instance.vehicleList.size(); i++) {
 		std::cout << "Route " << i << ":     ";
 		//print start/end depot

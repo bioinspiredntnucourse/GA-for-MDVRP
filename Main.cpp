@@ -84,7 +84,10 @@ int main() {
 		CopyVectorTest();
 	*/
 
-	
+	/*
+
+	*/
+
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
 	ProblemSolver ps;
@@ -98,20 +101,6 @@ int main() {
 	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);
-	
-
-	/*
-	Problem p = LoadProblem("data_files\\Data Files\\p01");
-
-	ProblemSolver ps;
-	ps.iterations = 10000;
-	ps.populationSize = 2;
-	//ps.crossoverProbability = 0;
-	//ps.mutationProbability = 0.01;
-	//ps.tournamentSize = 20;
-
-	ps.SolveByRandom(p);
-	*/
 
 	//BestCostRouteCrossoverTest();
 

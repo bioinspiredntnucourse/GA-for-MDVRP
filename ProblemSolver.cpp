@@ -10,7 +10,6 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	population.reserve(populationSize);
 
 	for (unsigned int i = 0; i < populationSize; i++) {
-		std::cout << "New Instance" << std::endl;
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
 		sol.GenerateInitialSolution(this->problem);
@@ -28,9 +27,7 @@ vector<SolutionInstance> ProblemSolver::ChooseParents(vector<SolutionInstance> p
 	vector<SolutionInstance> replicatedWinners = Replicate(winners, populationSize);
 	return replicatedWinners;
 }
-vector<SolutionInstance> ProblemSolver::ParentsCrossover(vector<SolutionInstance> parents) {
-	return vector<SolutionInstance>();
-}
+
 //manipulate the population given the evaluations
 vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInstance> population) {
 	vector<SolutionInstance> currentSolutions;
@@ -57,9 +54,29 @@ vector<SolutionInstance> ProblemSolver::SelectNextGeneration(vector<SolutionInst
 
 
 vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> parents) {
-	
 	vector<SolutionInstance> children;
+	children.reserve(parents.size());
 
+	for (int i = 0; i < parents.size(); i += 2) {
+		SolutionInstance par1 = parents[i];
+		SolutionInstance par2 = parents[i+1];
+
+		/*cout << "before:" << endl;
+		printSolutionRoute(par1);
+		printSolutionRoute(par2);
+		*/
+
+		BestCostRouteCrossover(par1, par2);
+
+		/*cout << "after:" << endl;
+		printSolutionRoute(par1);
+		printSolutionRoute(par2);
+		*/
+
+		children.push_back(par1);
+		children.push_back(par2);
+	}
+	/*
 	while (parents.size() > 1) {
 		//copys[i] = IndividualCrossover(copys[i]);
 
@@ -78,7 +95,7 @@ vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> paren
 
 		children.push_back(par1);
 		children.push_back(par2);
-	}
+	}*/
 	return children;
 }
 

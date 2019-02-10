@@ -48,7 +48,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 
 		if (i % 50 == 0) {
 			PlotGenerations(generationBest);
-			//DrawSolutionInstance(this->problem, generationBest.back());
+			DrawSolutionInstance(this->problem, generationBest.back());
 		}
 	}
 
