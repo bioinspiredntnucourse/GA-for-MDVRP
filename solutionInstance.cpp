@@ -77,9 +77,9 @@ float distanceBetween(Location &loc1, Location &loc2) {
 }
 void Vehicle::RecalculateRouteDistance() {
 
-	//if there are no customers, set the distance between start and end depots
+	//if there are no customers, set the distance to 0, because this path isnt concidered
 	if (route.size() == 0) {
-		routeRange = distanceBetween(originDepot, endDepot);
+		routeRange = 0; // distanceBetween(originDepot, endDepot);
 		return;
 	}
 
