@@ -10,7 +10,7 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	population.reserve(populationSize);
 
 	for (unsigned int i = 0; i < populationSize; i++) {
-		std::cout << "New Instance" << std::endl;
+		//std::cout << "New Instance" << std::endl;
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
 		sol.GenerateInitialSolution(this->problem);
