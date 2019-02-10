@@ -3,7 +3,17 @@
 #include "output.h"
 #include "ProblemSolver.h"
 
-void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
+void _reinsertRemovedCust(RemovedCust remCus) {
+	Vehicle *v = &remCus.inst->vehicleList[remCus.vehicleInd];
+	if (remCus.custInd >= v->route.size()) {
+		v->route.push_back(remCus.cust);
+	}
+	else {
+		v->route.insert(v->route.begin() + remCus.custInd, remCus.cust);
+	}
+}
+
+RemovedCust _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 	for (int vehicleInd = 0; vehicleInd < inst.vehicleList.size(); vehicleInd++) {
 		//get the route of the vehicle
 		vector<Customer> *route = &inst.vehicleList[vehicleInd].route;
@@ -14,19 +24,29 @@ void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 				//erase the customer if it is equal to the given
 				inst.vehicleList[vehicleInd].load -= cust.demand;
 				route->erase(route->begin() + custInd);
+
+				RemovedCust remCus;
+				remCus.cust = cust;
+				remCus.inst = &inst;
+				remCus.vehicleInd = vehicleInd;
+				remCus.custInd = custInd;
+				return remCus;
 			}
 		}
 	}
 }
 
-void _removeRouteFromInstance(Vehicle route, SolutionInstance &inst) {
+vector<RemovedCust> _removeRouteFromInstance(Vehicle route, SolutionInstance &inst) {
+	vector<RemovedCust> remCusts;
 	for (int i = 0; i < route.route.size(); i++) {
 		//for each customer in the route
 		Customer *routeCust = &route.route[i];
 
 		//go through 
-		_removeCustomerFromInstance(*routeCust, inst);
+		RemovedCust remCust = _removeCustomerFromInstance(*routeCust, inst);
+		remCusts.push_back(remCust);
 	}
+	return remCusts;
 }
 
 //returns change in distance
@@ -81,7 +101,7 @@ InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 		if (eval < bestEval.insertCost) {
 
 			//check if insertion is valid with regards to max capacity
-			float maxLoad = insertInRoute.originDepot.maxVehicleCapacity;
+			float maxLoad = insertInRoute.capacity;
 			//cout << "route load: " << insertInRoute.load << " custDemaand: " << cust.demand << " maxLoad: " << maxLoad << endl;
 			
 			if (insertInRoute.load + cust.demand <= maxLoad) {
@@ -176,11 +196,20 @@ InsertEval _findBestInsertionInAll(Customer &cust, SolutionInstance &inst) {
 
 
 
-void _doInsert(InsertEval eval) {
+bool _doInsert(InsertEval eval) {
 	vector<Customer> *r = &eval.insertInVehicle->route;
 
 	//cout << "customer: " << eval.insertCustomer.customerNumber << " intoRouteSize: " << eval.insertInVehicle->route.size(), << endl;
 	//myPrintln(*eval.insertInVehicle);
+
+	//check again that the route has capacity
+	if (eval.insertCustomer.demand + eval.insertInVehicle->load > eval.insertInVehicle->capacity) {
+		//cout << "inserting in a vehicle without capacity :( insert_cost: " << eval.insertCost <<  endl;
+		return false;
+	}
+	else {
+		//cout << ":) !!! inserting in vehivle with capacity" << endl;
+	}
 
 	//if we are at the index outside the vector, push
 	if (eval.insertIndex == r->size()) {
@@ -193,15 +222,23 @@ void _doInsert(InsertEval eval) {
 
 	//add the load of the customer
 	eval.insertInVehicle->load += eval.insertCustomer.demand;
+
+
+	return true;
 }
 
 //inserts the given vehicle customers from
-vector<InsertEval> _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot) {
+vector<InsertEval> _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot, vector<RemovedCust> custsRemoved) {
 	vector<InsertEval> bestEvaluations;
 	for (int i = 0; i < insertFrom.route.size(); i++) {
 		Customer insertCust = insertFrom.route[i];
 		InsertEval eval = _findBestInsertionInAllWithEqualStartDepot(insertCust, insertInto, startDepot);
 		bestEvaluations.push_back(eval);
+
+		bool isInserted = _doInsert(eval);
+		if (!isInserted) {
+			_reinsertRemovedCust(custsRemoved[i]);
+		}
 	}
 	return bestEvaluations;
 }
@@ -213,7 +250,6 @@ void _insertAllIntoBestOfAllRoute(Vehicle &insertFrom, SolutionInstance &insertI
 	for (int i = 0; i < insertFrom.route.size(); i++) {
 		Customer insertCust = insertFrom.route[i];
 		InsertEval eval = _findBestInsertionInAll(insertCust, insertInto);
-		_doInsert(eval);
 	}
 }
 
@@ -242,20 +278,18 @@ void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 	Vehicle route2 = *_route2;
 
 	//remove route1 from inst2 and route2 from inst1
-	_removeRouteFromInstance(route1, inst2);
-	_removeRouteFromInstance(route2, inst1);
+	vector<RemovedCust> custsRemovedFromInst2 = _removeRouteFromInstance(route1, inst2);
+	vector<RemovedCust> custsRemovedFromInst1 = _removeRouteFromInstance(route2, inst1);
 
 	//get the best insertions in both parents
 	//dont modify before both are evaluated, because the input route might change
-	vector<InsertEval> child2Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route1, inst2, startDepotId);
-	vector<InsertEval> child1Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route2, inst1, startDepotId);
+	vector<InsertEval> child2Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route1, inst2, startDepotId, custsRemovedFromInst2);
+	vector<InsertEval> child1Inserts = _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(route2, inst1, startDepotId, custsRemovedFromInst1);
 
+	/*
 	for (auto &inserts1 : child1Inserts) {
 		//cout << "inserting for 1" << endl;
 		//_printInserts(inserts1);
-		if (inserts1.insertCost > 9999.9) {
-			//_route
-		}
 		_doInsert(inserts1);
 	}
 	for (auto &inserts2 : child2Inserts) {
@@ -263,6 +297,7 @@ void BestCostRouteCrossover(SolutionInstance &inst1, SolutionInstance &inst2) {
 		//_printInserts(inserts2);
 		_doInsert(inserts2);
 	}
+	*/
 }
 
 

@@ -10,9 +10,17 @@ struct InsertEval {
 	Customer insertCustomer;
 };
 
-void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst);
+struct RemovedCust {
+	Customer cust;
+	SolutionInstance *inst;
+	int vehicleInd;
+	int custInd;
+};
 
-void _removeRouteFromInstance(Vehicle route, SolutionInstance &inst);
+RemovedCust _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst);
+void _reinsertRemovedCust(RemovedCust remCus);
+
+vector<RemovedCust> _removeRouteFromInstance(Vehicle route, SolutionInstance &inst);
 
 float _evaluateInsertion(Customer &c, Vehicle &v, int insertPos);
 
@@ -22,9 +30,9 @@ InsertEval _findBestInsertionInAllWithEqualStartDepot(Customer &cust, SolutionIn
 
 InsertEval _findBestInsertionInAll(Customer &cust, SolutionInstance &inst);
 
-void _doInsert(InsertEval eval);
+bool _doInsert(InsertEval eval);
 
-vector<InsertEval> _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot);
+vector<InsertEval> _bcrcInsertAllIntoBestRoutesWithEqualStartDepot(Vehicle &insertFrom, SolutionInstance &insertInto, int startDepot, vector<RemovedCust> custsRemoved);
 
 void _insertAllIntoBestOfAllRoute(Vehicle &insertFrom, SolutionInstance &insertInto);
 

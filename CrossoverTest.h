@@ -63,7 +63,7 @@ void bcrcInsertAllInRouteTest(Problem p) {
 	println("vehicle into");
 	printSolutionRoute(si2);
 
-	_removeRouteFromInstance(vfrom, si2);
+	vector<RemovedCust> remCusts = _removeRouteFromInstance(vfrom, si2);
 
 	println("---AFTER DELETION----");
 	println("vehicle from");
@@ -71,7 +71,7 @@ void bcrcInsertAllInRouteTest(Problem p) {
 	println("vehicle into");
 	printSolutionRoute(si2);
 
-	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(vfrom, si2, 0);
+	_bcrcInsertAllIntoBestRoutesWithEqualStartDepot(vfrom, si2, 0, remCusts);
 
 	println("---AFTER----");
 	println("vehicle from");

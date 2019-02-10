@@ -1,4 +1,5 @@
 - crossover will not find new routes that are not assigned
+- bug: dersom en customer ikke kan settes inn noe sted, hva skjer?
 - sjekke mutasjoner
 - swap startDepot mutation
 - swap endDepot mutation

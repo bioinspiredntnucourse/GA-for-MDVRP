@@ -39,10 +39,12 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	int i = 0;
 	while (running) {
 		parents = ChooseParents(population);
-		_checkLoad(parents);
+		//_checkLoad(parents);
 		children = Crossover(parents);
+		cout << "iteration " << i << " checkLoad after crossover" << endl;
 		_checkLoad(children);
-		mutatedChildren = MutateChildren(children);
+		mutatedChildren = children; // MutateChildren(children);
+		cout << "iteration " << i << " checkLoad after mutation" << endl;
 		_checkLoad(mutatedChildren);
 
 
@@ -53,7 +55,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 
 		//add mutated children to the population
 		population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
-		_checkLoad(population);
+		//_checkLoad(population);
 
 		Evaluate(population);
 
