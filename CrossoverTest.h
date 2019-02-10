@@ -88,6 +88,8 @@ void BestCostRouteCrossoverTest() {
 
 	bcrcInsertAllInRouteTest(p);
 
+
+
 	SI inst1 = genRandInst(p);
 	SI inst2 = genRandInst(p);
 	SI inst1_old = inst1;
@@ -105,4 +107,8 @@ void BestCostRouteCrossoverTest() {
 	printSolutionRoute(inst2_old);
 	println("inst2 after");
 	printSolutionRoute(inst2);
+
+	DrawSolutionInstance(p, inst2_old);
+	DrawSolutionInstance(p, inst1_old);
+	DrawSolutionInstance(p, inst1);
 }

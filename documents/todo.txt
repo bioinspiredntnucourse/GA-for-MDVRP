@@ -1,0 +1,4 @@
+- crossover will not find new routes that are not assigned
+- sjekke mutasjoner
+- swap startDepot mutation
+- swap endDepot mutation

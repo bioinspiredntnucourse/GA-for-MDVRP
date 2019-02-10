@@ -1,6 +1,7 @@
 #include "solutionInstance.h"
 #include "SimpleCrossovers.h"
 #include "output.h"
+#include "ProblemSolver.h"
 
 void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 	for (int vehicleInd = 0; vehicleInd < inst.vehicleList.size(); vehicleInd++) {
@@ -11,6 +12,7 @@ void _removeCustomerFromInstance(Customer &cust, SolutionInstance &inst) {
 
 			if ((*route)[custInd].customerNumber == cust.customerNumber) {
 				//erase the customer if it is equal to the given
+				inst.vehicleList[vehicleInd].load -= cust.demand;
 				route->erase(route->begin() + custInd);
 			}
 		}
@@ -58,13 +60,15 @@ float _evaluateInsertion(Customer &c, Vehicle &v, int insertPos) {
 		newEval = distanceBetween(v.route[insertPos - 1], c) + distanceBetween(c, v.route[insertPos]);
 		oldEval = distanceBetween(v.route[insertPos - 1], v.route[insertPos]);
 	}
-	return oldEval - newEval;
+
+	//lower is better
+	return newEval - oldEval; // oldEval - newEval;
 }
 
 InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 	InsertEval bestEval;
 	//generate a stupidly bad solution
-	bestEval.insertCost = 99999999999;
+	bestEval.insertCost = 99999.9;
 	bestEval.insertCustomer = cust;
 	bestEval.insertInVehicle = &insertInRoute;
 	bestEval.insertIndex = 0;
@@ -75,10 +79,17 @@ InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 		//cout << "evaluation: " << eval << endl;
 
 		if (eval < bestEval.insertCost) {
-			bestEval.insertCost = eval;
-			bestEval.insertIndex = i;
-			bestEval.insertInVehicle = &insertInRoute;
-			bestEval.insertCustomer = cust;
+
+			//check if insertion is valid with regards to max capacity
+			float maxLoad = insertInRoute.originDepot.maxVehicleCapacity;
+			//cout << "route load: " << insertInRoute.load << " custDemaand: " << cust.demand << " maxLoad: " << maxLoad << endl;
+			
+			if (insertInRoute.load + cust.demand <= maxLoad) {
+				bestEval.insertCost = eval;
+				bestEval.insertIndex = i;
+				bestEval.insertInVehicle = &insertInRoute;
+				bestEval.insertCustomer = cust;
+			}
 		}
 
 	}
@@ -106,7 +117,7 @@ InsertEval _findBestInsertionInAllWithEqualStartDepot(Customer &cust, SolutionIn
 
 	//choose the best
 	InsertEval bestEval;
-	bestEval.insertCost = 999999999;
+	bestEval.insertCost = 99999.9;
 	for (auto &eval : evals) {
 		if (eval.insertCost < bestEval.insertCost) {
 			bestEval = eval;
@@ -162,6 +173,9 @@ void _doInsert(InsertEval eval) {
 		//inserts before the given index
 		r->insert(r->begin() + eval.insertIndex, eval.insertCustomer);
 	}
+
+	//add the load of the customer
+	eval.insertInVehicle->load += eval.insertCustomer.demand;
 }
 
 //inserts the given vehicle customers from

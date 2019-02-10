@@ -59,10 +59,11 @@ public:
 	//utilities
 	//SolutionInstance GenerateInitialSolution(Problem problem);
 	void swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<Customer>& route2, int N);
-	int loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);
-	bool routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);
 
 	SolutionInstance FindBestInstance(vector<SolutionInstance> instances);
 	void DrawSolutions(vector<SolutionInstance> solutions);
 
 };
+int loadAfterMutation(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);
+
+bool routeMutationValid(Vehicle vehicle, Customer currentCustomer, Customer newCustomer);

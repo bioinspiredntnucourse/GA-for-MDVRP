@@ -9,7 +9,15 @@ result_file_name
 
 import sys
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
+
+matplotlib.use()
+from pylab import *
+
+#plt = matplotlib.pyplot;
+
+matplotlib.use("wx")
 
 def main():
     inputlength = 2
@@ -57,6 +65,9 @@ def main():
     #print("paths", paths)
 
     plt.title(solutionFilename + "\nfitness: " + str(fitness))
+
+    mngr = get_current_fig_manager()
+    mngr.window.setGeometry(5, 50, 640, 545)
     plt.show()
 
 

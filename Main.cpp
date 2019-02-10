@@ -86,14 +86,18 @@ int main() {
 
 	/*
 
+
+
 	*/
 
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
 
+	DrawSolution("p01", "p01.res");
+
 	ProblemSolver ps;
 	ps.iterations = 1000;
-	ps.populationSize = 100;
-	ps.crossoverProbability = 0.0;
+	ps.populationSize = 100; // 100;
+	//ps.crossoverProbability = 0.0;
 	ps.mutationProbability = 0.02;
 	ps.idealMutationProbability = 0.00;
 	ps.endDepotMutationProbability = 0.0;
