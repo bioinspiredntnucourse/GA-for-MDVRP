@@ -17,6 +17,12 @@ Vehicle::Vehicle(int id, int capacity, Depot originDepot) {
 	this->capacity = capacity;
 	this->originDepot = originDepot;
 	this->routeRange = 0;
+	if (originDepot.maxRouteRange == 0) {
+		this->maxRouteRange = float(numeric_limits<float>::max());
+	}
+	else {
+		this->maxRouteRange = originDepot.maxRouteRange;
+	}
 }
 
 Vehicle::~Vehicle() {
@@ -36,11 +42,18 @@ Vehicle::~Vehicle() {
 }
 
 bool Vehicle::vehicleAvailable(Customer customer) {
-	if (this->load + customer.demand > this->capacity) {
-		return false;
+	float distance;
+	if (this->route.size() != 0) {
+		distance = distanceBetween(customer, this->route.back());
 	}
 	else {
+		distance = distanceBetween(customer, this->originDepot);
+	}
+	if ((this->load + customer.demand <= this->capacity) && (this->routeRange + distance <= this->maxRouteRange) ) {
 		return true;
+	}
+	else {
+		return false;
 	}
 }
 

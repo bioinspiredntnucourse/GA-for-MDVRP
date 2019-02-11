@@ -96,14 +96,15 @@ int main() {
 
 	ProblemSolver ps;
 	ps.iterations = 1000;
-	ps.populationSize = 100; // 100;
+	ps.populationSize = 50; // 100;
 	//ps.crossoverProbability = 0.0;
 	ps.mutationProbability = 0.02;
-	ps.swapStartDepotMutationProb = 0.15; // 0.08; //per instance
+	ps.swapStartDepotMutationProb = 0.05; // 0.08; //per instance
 	ps.idealMutationProbability = 0.1; // 0.01; //per customer
 	ps.endDepotMutationProbability = 0.05; // 0.01; //per vehicle
-	ps.randomTournamentWinnerProbability = 0.0;
+	ps.randomTournamentWinnerProbability = 0.0; //0.02;
 	ps.tournamentSize = 2;// 5;
+
 
 	ps.SolveMdvrpWithGa(p);
 

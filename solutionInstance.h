@@ -11,7 +11,7 @@ public:
 	Depot endDepot;
 	Depot originDepot;
 	float routeRange;
-	int maxRouteRange;
+	float maxRouteRange;
 	std::vector<Customer> route;
 
 	Vehicle(int id, int capacity, Depot originDepot);
