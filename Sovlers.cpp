@@ -32,6 +32,9 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 
 	//start
 	population = InitializePopulation();
+	ValidateInstances(this->problem, mutatedChildren);
+
+
 	Evaluate(population);
 	printSolutionRoute(population[0]);
 
@@ -41,16 +44,20 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	int i = 0;
 	while (running) {
 		parents = ChooseParents(population);
+		ValidateInstances(this->problem, mutatedChildren);
+
 		//_checkLoad(parents);
 		children = Crossover(parents);
+		ValidateInstances(this->problem, mutatedChildren);
+
 
 		//cout << "iteration " << i << " checkLoad after crossover" << endl;
 		//_checkLoad(children);
 		mutatedChildren = MutateChildren(children);
 		//cout << "iteration " << i << " checkLoad after mutation" << endl;
 		//_checkLoad(mutatedChildren);
-
 		ValidateInstances(this->problem, mutatedChildren);
+
 
 		//evaluate only the newly generated children here
 		//Evaluate(children);

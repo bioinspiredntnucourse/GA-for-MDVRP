@@ -136,7 +136,7 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 		//swap origin depot mutation
 		if (testProb(this->swapStartDepotMutationProb)) {
 			//perform mutation
-			inst = SwapStartDepotMutation(inst);
+			//inst = SwapStartDepotMutation(inst);
 			this->swapStartDepotMutations++;
 		}
 
@@ -145,7 +145,7 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 
 			//Adds abillity to mutate endDepot as well, randomly choose a new depot.
 			if (testProb(this->endDepotMutationProbability)) {
-				inst = ChangeEndDepotMutation(inst, vInd);
+				//inst = ChangeEndDepotMutation(inst, vInd);
 				this->changeEndDepotMutations++;
 			}
 

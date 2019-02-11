@@ -89,7 +89,7 @@ int main() {
 
 	*/
 
-	string problem = "p17";
+	string problem = "p01";
 	Problem p = LoadProblem("data_files\\Data Files\\"+problem);
 
 	DrawSolution(problem, problem + ".res");

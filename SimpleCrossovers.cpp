@@ -105,10 +105,16 @@ InsertEval _findBestInsertionInPath(Customer &cust, Vehicle &insertInRoute) {
 			//cout << "route load: " << insertInRoute.load << " custDemaand: " << cust.demand << " maxLoad: " << maxLoad << endl;
 			
 			if (insertInRoute.load + cust.demand <= maxLoad) {
-				bestEval.insertCost = eval;
-				bestEval.insertIndex = i;
-				bestEval.insertInVehicle = &insertInRoute;
-				bestEval.insertCustomer = cust;
+
+				insertInRoute.RecalculateRouteDistance(); //<- can maybe drop
+				if (insertInRoute.routeRange + eval <= insertInRoute.maxRouteRange) {
+
+					bestEval.insertCost = eval;
+					bestEval.insertIndex = i;
+					bestEval.insertInVehicle = &insertInRoute;
+					bestEval.insertCustomer = cust;
+				}
+
 			}
 		}
 
@@ -177,15 +183,16 @@ InsertEval _findBestInsertionInAll(Customer &cust, SolutionInstance &inst) {
 	for (auto &route : inst.vehicleList) {
 
 		//if there are no customers in a route, dont look at it
-		if (route.route.size() != 0) {
+
+		//if (route.route.size() != 0) { //<-- remove?
 			InsertEval eval = _findBestInsertionInPath(cust, route);
 			evals.push_back(eval);
-		}
+		//}
 	}
 
 	//choose the best
 	InsertEval bestEval;
-	bestEval.insertCost = 999999999;
+	bestEval.insertCost = 9999999.9;
 	for (auto &eval : evals) {
 		if (eval.insertCost < bestEval.insertCost) {
 			bestEval = eval;
@@ -202,14 +209,25 @@ bool _doInsert(InsertEval eval) {
 	//cout << "customer: " << eval.insertCustomer.customerNumber << " intoRouteSize: " << eval.insertInVehicle->route.size(), << endl;
 	//myPrintln(*eval.insertInVehicle);
 
+	eval.insertInVehicle->RecalculateRouteDistance();
+	float newDist = eval.insertInVehicle->routeRange + _evaluateInsertion(eval.insertCustomer, *eval.insertInVehicle, eval.insertIndex);
+
 	//check again that the route has capacity
 	if (eval.insertCustomer.demand + eval.insertInVehicle->load > eval.insertInVehicle->capacity) {
 		//cout << "inserting in a vehicle without capacity :( insert_cost: " << eval.insertCost <<  endl;
 		return false;
 	}
+	else if (newDist > eval.insertInVehicle->maxRouteRange) {
+		//cout << "routeRangeToBe: " << newDist << " maxRange: " << eval.insertInVehicle->maxRouteRange << endl;
+		return false;
+	}
 	else {
 		//cout << ":) !!! inserting in vehivle with capacity" << endl;
+		//cout << "routeRangeToBe: " << newDist << " maxRange: " << eval.insertInVehicle->maxRouteRange << endl;
+
 	}
+
+
 
 	//if we are at the index outside the vector, push
 	if (eval.insertIndex == r->size()) {

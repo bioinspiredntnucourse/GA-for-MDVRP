@@ -42,6 +42,7 @@ Vehicle::~Vehicle() {
 }
 
 bool Vehicle::vehicleAvailable(Customer customer) {
+	/*
 	float distance;
 	if (this->route.size() != 0) {
 		distance = distanceBetween(customer, this->route.back());
@@ -49,7 +50,8 @@ bool Vehicle::vehicleAvailable(Customer customer) {
 	else {
 		distance = distanceBetween(customer, this->originDepot);
 	}
-	if ((this->load + customer.demand <= this->capacity) && (this->routeRange + distance <= this->maxRouteRange) ) {
+	*/
+	if ((this->load + customer.demand <= this->capacity) ){//&& (this->routeRange + distance <= this->maxRouteRange) ) {
 		return true;
 	}
 	else {
@@ -173,15 +175,16 @@ void SolutionInstance::GenerateInitialSolution3(Problem problem) {
 	for (int i = 0; i < problem.customers.size(); i++) {
 		tempDepotDistance.clear();
 		for (int j = 0; j < problem.depots.size(); j++) {
+
 			distance = distanceBetweenCoordinates(problem.customers[i].x, problem.customers[i].y, problem.depots[j].x, problem.depots[j].y);
 			while (tempDepotDistance.find(distance) != tempDepotDistance.end()) {
 				distance = distance + 0.0001;
+
 			}
 			tempDepotDistance[distance] = problem.depots[j];
 		}
 		depotDistances.push_back(tempDepotDistance);
 	}
-
 
 	bool vehicleAvailable, newAssignmentChosen, insertSuccessfull;
 	int vehicleNumber, tempCustomerNumber, numCustomerServed;
@@ -199,11 +202,31 @@ void SolutionInstance::GenerateInitialSolution3(Problem problem) {
 			newAssignmentChosen = false;
 			longestDistance2SecondDepot = 0;
 			for (int j = 0; j < depotDistances.size(); j++) {
+				
+
 				if (depotDistances[j].begin()->second.depotId == problem.depots[i].depotId && !customerServed[j] && numCustomerServed < customerServed.size()) {
-					if ((++depotDistances[j].begin())->first > longestDistance2SecondDepot) {
+					/*
+					cout << "printing map" << endl;
+					map<float, Depot>::iterator it;
+					for (it = depotDistances[j].begin(); it != depotDistances[j].end(); it++)
+					{
+						std::cout << "eval: " << it->first << " depot " << it->second.depotId << endl;
+					}*/
+					
+					if (depotDistances[j].size() == 1) {
+						//cout << "map size is 1" << endl;
+						tempCustomerNumber = j;
+						newAssignmentChosen = true;
+						longestDistance2SecondDepot = (depotDistances[j].begin())->first;
+						//break;
+					}
+					
+					else if ((++depotDistances[j].begin())->first > longestDistance2SecondDepot) {
+
 						longestDistance2SecondDepot = (++depotDistances[j].begin())->first;
 						tempCustomerNumber = j;
 						newAssignmentChosen = true;
+
 					}
 				}
 			}
@@ -212,13 +235,18 @@ void SolutionInstance::GenerateInitialSolution3(Problem problem) {
 				insertSuccessfull = false;
 				vehicleAvailable = false;
 				for (int j = 0; j < problem.depots[i].vehicleCount; j++) {
+
 					vehicleNumber = (problem.depots[i].depotId)*(problem.depots[i].vehicleCount) + j;
 					vehicleAvailable = vehicleList[vehicleNumber].vehicleAvailable(problem.customers[tempCustomerNumber]);
+
 					if (vehicleAvailable) {
 						tempInsertEval = _findBestInsertionInPath(problem.customers[tempCustomerNumber], vehicleList[vehicleNumber]);
+						//cout << "evalCost: " << tempInsertEval.insertCost << endl;
 						insertSuccessfull = _doInsert(tempInsertEval);
 						if (!insertSuccessfull) {
-							std::cout << "_doInsert NOT SUCCESSFULL! THIS SHOULD NOT HAPPEN" << std::endl;
+							//std::cout << "_doInsert NOT SUCCESSFULL! THIS SHOULD NOT HAPPEN" << std::endl;
+							//vehicleList[vehicleNumber].route.push_back(problem.customers[tempCustomerNumber]);
+							continue;
 						}
 
 						customerServed[tempCustomerNumber] = true;
@@ -228,7 +256,20 @@ void SolutionInstance::GenerateInitialSolution3(Problem problem) {
 					}
 				}
 				if (!vehicleAvailable) {
-					depotDistances[tempCustomerNumber].erase(longestDistance2SecondDepot);
+					float key = longestDistance2SecondDepot;
+
+					/*
+					cout << "printing map" << endl;
+					map<float, Depot>::iterator it;
+					
+					for (it = depotDistances[tempCustomerNumber].begin(); it != depotDistances[tempCustomerNumber].end(); it++)
+					{
+						std::cout << "eval: " << it->first << " depot " << it->second.depotId << endl;
+					}
+					while (depotDistances[tempCustomerNumber].find(key) == depotDistances[tempCustomerNumber].end()) {
+						key += 0.0001;
+					}*/
+					depotDistances[tempCustomerNumber].erase(key);
 				}
 			}
 		}
