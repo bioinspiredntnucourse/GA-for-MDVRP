@@ -96,7 +96,7 @@ int main() {
 
 	ProblemSolver ps;
 	ps.iterations = 1000;
-	ps.populationSize = 50; // 100;
+	ps.populationSize = 100; // 100;
 	//ps.crossoverProbability = 0.0;
 	ps.mutationProbability = 0.02;
 	ps.swapStartDepotMutationProb = 0.15; // 0.08; //per instance
