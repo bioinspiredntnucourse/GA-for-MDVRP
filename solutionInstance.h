@@ -33,6 +33,7 @@ public:
 	void generateRandomSolution(Problem problem);
 	void GenerateInitialSolution(Problem problem);
 	void GenerateInitialSolution2(Problem problem);
+	void GenerateInitialSolution3(Problem problem);
 };
 
 

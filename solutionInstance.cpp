@@ -1,6 +1,7 @@
 #pragma once
 
 #include "solutionInstance.h"
+#include "simpleCrossovers.h"
 #include <stdlib.h>
 #include <iostream>
 #include <cmath>
@@ -150,6 +151,88 @@ void SolutionInstance::generateRandomSolution(Problem problem) {
 	
 }
 
+void SolutionInstance::GenerateInitialSolution3(Problem problem) {
+	float distance;
+	map<float, Depot> tempDepotDistance;
+	vector<map<float, Depot> > depotDistances;
+
+	//Assign all customer2depot distances in map(sorted)
+	for (int i = 0; i < problem.customers.size(); i++) {
+		tempDepotDistance.clear();
+		for (int j = 0; j < problem.depots.size(); j++) {
+			distance = distanceBetweenCoordinates(problem.customers[i].x, problem.customers[i].y, problem.depots[j].x, problem.depots[j].y);
+			while (tempDepotDistance.find(distance) != tempDepotDistance.end()) {
+				distance = distance + 0.0001;
+			}
+			tempDepotDistance[distance] = problem.depots[j];
+		}
+		depotDistances.push_back(tempDepotDistance);
+	}
+
+
+	bool vehicleAvailable, newAssignmentChosen, insertSuccessfull;
+	int vehicleNumber, tempCustomerNumber, numCustomerServed;
+	float longestDistance2SecondDepot;
+	InsertEval tempInsertEval;
+	vector<bool> customerServed;
+
+	for (int i = 0; i < problem.customers.size(); i++) {
+		customerServed.push_back(false);
+	}
+	//std::cout << (++depotDistances[0].begin())->second.depotId << std::endl;
+	numCustomerServed = 0;
+	while (numCustomerServed < customerServed.size()) {
+		for (int i = 0; i < problem.depots.size(); i++) {
+			newAssignmentChosen = false;
+			longestDistance2SecondDepot = 0;
+			for (int j = 0; j < depotDistances.size(); j++) {
+				if (depotDistances[j].begin()->second.depotId == problem.depots[i].depotId && !customerServed[j] && numCustomerServed < customerServed.size()) {
+					if ((++depotDistances[j].begin())->first > longestDistance2SecondDepot) {
+						longestDistance2SecondDepot = (++depotDistances[j].begin())->first;
+						tempCustomerNumber = j;
+						newAssignmentChosen = true;
+					}
+				}
+			}
+
+			if (newAssignmentChosen) {
+				insertSuccessfull = false;
+				vehicleAvailable = false;
+				for (int j = 0; j < problem.depots[i].vehicleCount; j++) {
+					vehicleNumber = (problem.depots[i].depotId)*(problem.depots[i].vehicleCount) + j;
+					vehicleAvailable = vehicleList[vehicleNumber].vehicleAvailable(problem.customers[tempCustomerNumber]);
+					if (vehicleAvailable) {
+						tempInsertEval = _findBestInsertionInPath(problem.customers[tempCustomerNumber], vehicleList[vehicleNumber]);
+						insertSuccessfull = _doInsert(tempInsertEval);
+						if (!insertSuccessfull) {
+							std::cout << "_doInsert NOT SUCCESSFULL! THIS SHOULD NOT HAPPEN" << std::endl;
+						}
+
+						customerServed[tempCustomerNumber] = true;
+						numCustomerServed += 1;
+						break;
+						//std::cout << numCustomerServed << std::endl;
+					}
+				}
+				if (!vehicleAvailable) {
+					depotDistances[tempCustomerNumber].erase(longestDistance2SecondDepot);
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < vehicleList.size(); i++) {
+		vehicleList[i].endDepot = vehicleList[i].originDepot;
+	}
+	//PrintMap
+	/*for (int i = 0; i < depotDistances.size(); i++){
+		std::cout << "CustomerNumber: " << i << std::endl;
+		for (map<float, Depot>::iterator it = depotDistances[i].begin(); it != depotDistances[i].end(); ++it) {
+			std::cout << it->first << " => " << it->second.depotId << '\n';
+		}
+	}*/
+}
+
 void SolutionInstance::GenerateInitialSolution2(Problem problem) {
 	float distance;
 	map<float, Depot> tempDepotDistance;
@@ -173,6 +256,7 @@ void SolutionInstance::GenerateInitialSolution2(Problem problem) {
 	int vehicleNumber, tempCustomerNumber, numCustomerServed;
 	float longestDistance2SecondDepot;
 	vector<bool> customerServed;
+
 
 	for (int i = 0; i < problem.customers.size(); i++) {
 		customerServed.push_back(false);
@@ -200,6 +284,7 @@ void SolutionInstance::GenerateInitialSolution2(Problem problem) {
 					vehicleAvailable = vehicleList[vehicleNumber].vehicleAvailable(problem.customers[tempCustomerNumber]);
 					if (vehicleAvailable) {
 						vehicleList[vehicleNumber].addCustomer2VehicleRoute(problem.customers[tempCustomerNumber]);
+						
 						customerServed[tempCustomerNumber] = true;
 						numCustomerServed += 1;
 						break;
@@ -219,12 +304,14 @@ void SolutionInstance::GenerateInitialSolution2(Problem problem) {
 	//PrintMap
 	/*
 	for (int i = 0; i < depotDistances.size(); i++){
+
 		std::cout << "CustomerNumber: " << i << std::endl;
 		for (map<float, Depot>::iterator it = depotDistances[i].begin(); it != depotDistances[i].end(); ++it) {
 			std::cout << it->first << " => " << it->second.depotId << '\n';
 		}
 	}
 	*/
+
 }
 
 void SolutionInstance::GenerateInitialSolution(Problem problem) {
