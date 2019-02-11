@@ -14,7 +14,7 @@ class Depot : public Location {
 public:
 	int depotId;
 	int vehicleCount;
-	int maxRouteRange;
+	float maxRouteRange;
 	int maxVehicleCapacity;
 
 	~Depot() { depotId = NULL; vehicleCount = NULL; maxRouteRange = NULL; maxVehicleCapacity = NULL; };
