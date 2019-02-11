@@ -89,7 +89,7 @@ int main() {
 
 	*/
 
-	Problem p = LoadProblem("data_files\\Data Files\\p01");
+	Problem p = LoadProblem("data_files\\Data Files\\p05");
 
 	DrawSolution("p01", "p01.res");
 
