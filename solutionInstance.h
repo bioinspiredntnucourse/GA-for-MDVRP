@@ -32,8 +32,8 @@ public:
 	SolutionInstance(Problem problem); //Generate structure, without solution
 	void generateRandomSolution(Problem problem);
 	void GenerateInitialSolution(Problem problem);
+	void GenerateInitialSolution2(Problem problem);
 };
-
 
 
 float distanceBetweenCoordinates(int x1, int y1, int x2, int y2);

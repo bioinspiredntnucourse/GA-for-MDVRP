@@ -32,6 +32,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	//start
 	population = InitializePopulation();
 	Evaluate(population);
+	printSolutionRoute(population[0]);
 
 	SolutionInstance bestInitInstance = FindBestInstance(population);
 	DrawSolutionInstance(this->problem, bestInitInstance);
@@ -39,11 +40,11 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 	int i = 0;
 	while (running) {
 		parents = ChooseParents(population);
-		_checkLoad(parents);
+		//_checkLoad(parents);
 		children = Crossover(parents);
-		_checkLoad(children);
+		//_checkLoad(children);
 		mutatedChildren = MutateChildren(children);
-		_checkLoad(mutatedChildren);
+		//_checkLoad(mutatedChildren);
 
 
 
@@ -53,7 +54,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 
 		//add mutated children to the population
 		population.insert(population.end(), mutatedChildren.begin(), mutatedChildren.end());
-		_checkLoad(population);
+		//_checkLoad(population);
 
 		Evaluate(population);
 
