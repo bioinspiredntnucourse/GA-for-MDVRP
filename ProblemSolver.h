@@ -11,11 +11,18 @@ using namespace std;
 class ProblemSolver {
 private:
 	//control
-	Problem problem;
 	bool running = true;
 
 
 public:
+	Problem problem;
+
+	//mutation stats
+	int swapStartDepotMutations = 0;
+	int changeEndDepotMutations = 0;
+	int idealCustChangeMutations = 0;
+
+
 	//algorithm parameters
 	int populationSize;
 	float crossoverProbability;
@@ -24,6 +31,7 @@ public:
 	float idealMutationProbability;
 	float endDepotMutationProbability;
 	float randomTournamentWinnerProbability;
+	float swapStartDepotMutationProb;
 	int iterations;
 
 	//solver methods
@@ -43,6 +51,7 @@ public:
 
 	SolutionInstance IndividualCrossover(SolutionInstance instance);
 	SolutionInstance IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber);
+	SolutionInstance ChangeEndDepotMutation(SolutionInstance inst, int vehicleInd);
 	SolutionInstance MutateChild(SolutionInstance solutionInstance);
 
 	//fill "evaluations" based on fitness of "instances"

@@ -1,5 +1,6 @@
 #pragma once
 #include "ProblemSolver.h"
+#include "Validate.h"
 
 void _checkLoad(vector<SolutionInstance> insts) {
 	bool nogood = false;
@@ -43,11 +44,11 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 		children = Crossover(parents);
 		cout << "iteration " << i << " checkLoad after crossover" << endl;
 		_checkLoad(children);
-		mutatedChildren = children; // MutateChildren(children);
+		mutatedChildren = MutateChildren(children);
 		cout << "iteration " << i << " checkLoad after mutation" << endl;
 		_checkLoad(mutatedChildren);
 
-
+		ValidateInstances(this->problem, children);
 
 		//evaluate only the newly generated children here
 		//Evaluate(children);
@@ -71,6 +72,13 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 		if (i % 15 == 0) {
 			DrawSolutionInstance(this->problem, generationBest.back());
 			PlotGenerations(generationBest);
+
+			int vehicleCount = problem.depots[0].vehicleCount;
+			int custCount = problem.customers.size();
+			cout << "MUTATIONS" << endl;
+			cout << "swapStartDepots: " << swapStartDepotMutations << " perPop: " << swapStartDepotMutations/i << endl;
+			cout << "changeEndDepots: " << changeEndDepotMutations << " perVehiclePerPop: " << changeEndDepotMutations/vehicleCount/ i << endl;
+			cout << "idealCustChanges: " << idealCustChangeMutations << " perCustomerPerPop: " << idealCustChangeMutations/custCount/i << endl;
 		}
 	}
 

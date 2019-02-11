@@ -17,6 +17,7 @@
 #include "VectorCopyTest.h"
 
 #include "CrossoverTest.h"
+#include "SwapStartMutationTest.h"
 
 int main() {
 	srand(time(NULL));
@@ -86,8 +87,6 @@ int main() {
 
 	/*
 
-
-
 	*/
 
 	Problem p = LoadProblem("data_files\\Data Files\\p01");
@@ -99,14 +98,16 @@ int main() {
 	ps.populationSize = 100; // 100;
 	//ps.crossoverProbability = 0.0;
 	ps.mutationProbability = 0.02;
-	ps.idealMutationProbability = 0.00;
-	ps.endDepotMutationProbability = 0.0;
+	ps.swapStartDepotMutationProb = 0.15; // 0.08; //per instance
+	ps.idealMutationProbability = 0.1; // 0.01; //per customer
+	ps.endDepotMutationProbability = 0.05; // 0.01; //per vehicle
 	ps.randomTournamentWinnerProbability = 0.0;
 	ps.tournamentSize = 5;
 
 	ps.SolveMdvrpWithGa(p);
 
 	//BestCostRouteCrossoverTest();
+	//SwapStartCrossoverTest();
 
 	std::string exit;
 	std::cin >> exit;

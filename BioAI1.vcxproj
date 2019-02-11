@@ -116,6 +116,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SwapStartMutation.cpp" />
+    <ClCompile Include="Mutations.cpp" />
     <ClCompile Include="ProblemLoader.cpp" />
     <ClCompile Include="ProblemLoaderTest.cpp" />
     <ClCompile Include="output.cpp" />
@@ -125,11 +127,15 @@
     <ClCompile Include="solutionInstance.cpp" />
     <ClCompile Include="ProblemSolver.cpp" />
     <ClCompile Include="Sovlers.cpp" />
+    <ClCompile Include="Validate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SwapStartMutation.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsTest.h" />
     <ClInclude Include="CrossoverTest.h" />
+    <ClInclude Include="SwapStartMutationTest.h" />
+    <ClInclude Include="Validate.h" />
     <ClInclude Include="VectorCopyTest.h" />
     <ClInclude Include="ProblemLoader.h" />
     <ClInclude Include="ProblemLoaderTest.h" />

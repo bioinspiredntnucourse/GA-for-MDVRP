@@ -45,6 +45,15 @@
     <ClCompile Include="SimpleCrossovers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mutations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapStartMutation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Validate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProblemStructures.h">
@@ -85,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="CrossoverTest.h">
       <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapStartMutationTest.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapStartMutation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Validate.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

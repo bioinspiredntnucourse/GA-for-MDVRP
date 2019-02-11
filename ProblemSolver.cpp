@@ -4,6 +4,8 @@
 #include "SimpleCrossovers.h"
 #include <iostream>
 #include "SimpleCrossovers.h"
+#include "SwapStartMutation.h"
+#include "Validate.h"
 
 vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 	vector<SolutionInstance> population;// = vector<SolutionInstance>(this->populationSize);
@@ -13,8 +15,8 @@ vector<SolutionInstance> ProblemSolver::InitializePopulation() {
 		//std::cout << "New Instance" << std::endl;
 		//SolutionInstance *solinst = GenerateRandomSolution(this->problem->customers);
 		SolutionInstance sol(this->problem);
-		//sol.GenerateInitialSolution(this->problem);
-		sol.generateRandomSolution(this->problem);
+		sol.GenerateInitialSolution(this->problem);
+		//sol.generateRandomSolution(this->problem);
 
 		population.push_back(sol);
 	}
@@ -79,6 +81,10 @@ vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> paren
 		children.push_back(par1);
 		children.push_back(par2);
 	}
+
+	//try swap
+	//SwapStartDepotCrossover(children);
+
 	return children;
 }
 
@@ -139,15 +145,52 @@ void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<C
 	std::cout << std::endl;*/
 }
 
+//return true with the probability given. Probability in the range [0, 1]
+bool testProb(float probability) {
+	float r = float(rand()) / float(RAND_MAX);
+	return r <= probability;
+}
 vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> children) {
-	//TODO: include a swap two customers in path muatation
-	int i;
-	float randomScore;
+
 	vector<SolutionInstance> mutatedChildren;
 	
-	for (i = 0; i < children.size(); i++) {
+	for (int instInd = 0; instInd < children.size(); instInd++) {
+		SolutionInstance inst = children[instInd];
 
-		mutatedChildren.push_back(MutateChild(children[i]));
+		//MUTATION BASED ON THE WHOLE INSTANCE
+
+		//swap origin depot mutation
+		if (testProb(this->swapStartDepotMutationProb)) {
+			//perform mutation
+			inst = SwapStartDepotMutation(inst);
+			this->swapStartDepotMutations++;
+		}
+
+		for (int vInd = 0; vInd < inst.vehicleList.size(); vInd++) {
+			//MUTATION BASED ON VEHICLE
+
+			//Adds abillity to mutate endDepot as well, randomly choose a new depot.
+			if (testProb(this->endDepotMutationProbability)) {
+				inst = ChangeEndDepotMutation(inst, vInd);
+				this->changeEndDepotMutations++;
+			}
+
+			for (int custInd = 0; custInd < inst.vehicleList[vInd].route.size(); custInd++) {
+				//MUTATION BASED ON CUSTOMER
+
+				if (testProb(this->idealMutationProbability)) {
+					//cout << "----Ideal mutation" << endl;
+					inst = IdealReroutingMutation(inst, vInd, custInd);
+					this->idealCustChangeMutations++;
+					//printSolutionRoute(inst);
+				}
+			}
+		}
+
+		mutatedChildren.push_back(inst);
+
+		//mutatedChildren.push_back(MutateChild(children[i]));
+		
 		/*
 		//have an initial chance for mutation at all
 		float r = float(rand()) / float(RAND_MAX);
@@ -160,17 +203,32 @@ vector<SolutionInstance> ProblemSolver::MutateChildren(vector<SolutionInstance> 
 		}
 		*/
 	}
+
 	return mutatedChildren;
+	
+}
+
+SolutionInstance ProblemSolver::ChangeEndDepotMutation(SolutionInstance inst, int vehicleInd) {
+	int randDepInd = rand() % problem.depots.size();
+	inst.vehicleList[vehicleInd].endDepot = problem.depots[randDepInd];
+	return inst;
 }
 
 SolutionInstance ProblemSolver::IdealReroutingMutation(SolutionInstance instance, int vehicleNumber, int customerNumber) {
 	Customer insertCust = instance.vehicleList[vehicleNumber].route[customerNumber];
 	SolutionInstance newInstance = instance;
+
+	RemovedCust remCust = _removeCustomerFromInstance(insertCust, newInstance);
 	InsertEval eval = _findBestInsertionInAll(insertCust, newInstance);
-	_doInsert(eval);
+	bool inserted = _doInsert(eval);
+	if (!inserted) {
+		_reinsertRemovedCust(remCust);
+		//throw invalid_argument("customer was not inserted");
+	}
 	return newInstance;
 }
 
+//not used
 SolutionInstance ProblemSolver::MutateChild(SolutionInstance solutionInstance) {
 	int i, j, randomCustomerNumber, randomVehicleNumber, randomDepotNumber;
 	float randomScore;
