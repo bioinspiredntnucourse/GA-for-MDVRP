@@ -33,8 +33,10 @@ inline void printSolutionRoute(SolutionInstance instance) {
 	std::cout << "Printing solution instance route" << endl;
 	for (i = 0; i < instance.vehicleList.size(); i++) {
 		std::cout << "Route " << i << ":     ";
+		//print load
+		cout << " load: " << instance.vehicleList[i].load;
 		//print start/end depot
-		std::cout << "[ " << instance.vehicleList[i].originDepot.depotId
+		std::cout << " [ " << instance.vehicleList[i].originDepot.depotId
 			<< ", " << instance.vehicleList[i].endDepot.depotId << " ]    ";
 		for (j = 0; j < instance.vehicleList[i].route.size(); j++) {
 			std::cout << instance.vehicleList[i].route[j].customerNumber << "   ";
@@ -52,11 +54,11 @@ inline void makeSolutionFile(SolutionInstance &solutionInstance, Problem &proble
 		k = 0;
 		for (j = 0; j < solutionInstance.vehicleList.size(); j++) {
 			if (solutionInstance.vehicleList[j].originDepot.depotId == i) {
-				os << i << " "
+				os << i+1 << " "
 					<< k << " "
 					<< solutionInstance.vehicleList[j].routeRange << "   "
 					<< solutionInstance.vehicleList[j].load << "   "
-					<< solutionInstance.vehicleList[j].endDepot.depotId << "    ";
+					<< solutionInstance.vehicleList[j].endDepot.depotId+1 << "    ";
 				for (l = 0; l < solutionInstance.vehicleList[j].route.size(); l++) {
 					os << solutionInstance.vehicleList[j].route[l].customerNumber << " ";
 				}
