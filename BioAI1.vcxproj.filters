@@ -45,9 +45,6 @@
     <ClCompile Include="SimpleCrossovers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mutations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SwapStartMutation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

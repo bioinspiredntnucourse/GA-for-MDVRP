@@ -51,11 +51,18 @@ def main():
     plt.plot([x[0] for x in depotsCoords], [x[1] for x in depotsCoords], 'ro')
     plt.plot([x[0] for x in customersCoords], [x[1] for x in customersCoords], 'bo')
 
+
+
     #PLOT PATHS
-    paths = getPaths(solutionlines, depotsCoords, customersCoords)
-    for path in paths:
+    paths, depotIds = getPaths(solutionlines, depotsCoords, customersCoords)
+
+    hsv = plt.get_cmap('hsv')
+    colors = hsv(np.linspace(0, 1.0, len(depotsCoords)))
+
+
+    for path, depotId in zip(paths, depotIds):
         if len(path) > 2:
-            plt.plot([x[0] for x in path], [x[1] for x in path])
+            plt.plot([x[0] for x in path], [x[1] for x in path], color=colors[depotId-1])
 
     #PRINT STUFF
     print("fitness:", fitness)
@@ -91,7 +98,7 @@ def getCustomerCoords(problemFileLines, depotCount, customerCount):
 def getPaths(solutionlines, depotsCoords, customersCoords):
 
     paths = []
-
+    startDepots = []
     for line in solutionlines:
         lineVals = line.split()
 
@@ -102,12 +109,13 @@ def getPaths(solutionlines, depotsCoords, customersCoords):
         customers = [int(x) for x in lineVals[5:]]
 
         path.append(depotsCoords[startDepot-1]) #append start depot coordinates
+        startDepots.append(startDepot)
 
         for customer in customers:
             path.append(customersCoords[customer-1]) #customer coords
 
         path.append(depotsCoords[endDepot-1]) #end depot coordinates
         paths.append(path)
-    return paths
+    return paths, startDepots
 
 main()

@@ -44,11 +44,11 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 		//_checkLoad(parents);
 		children = Crossover(parents);
 
-		cout << "iteration " << i << " checkLoad after crossover" << endl;
-		_checkLoad(children);
+		//cout << "iteration " << i << " checkLoad after crossover" << endl;
+		//_checkLoad(children);
 		mutatedChildren = MutateChildren(children);
-		cout << "iteration " << i << " checkLoad after mutation" << endl;
-		_checkLoad(mutatedChildren);
+		//cout << "iteration " << i << " checkLoad after mutation" << endl;
+		//_checkLoad(mutatedChildren);
 
 		ValidateInstances(this->problem, mutatedChildren);
 
@@ -71,7 +71,7 @@ void ProblemSolver::SolveMdvrpWithGa(const Problem &problem) {
 		if (i++ >= iterations)
 			running = false;
 
-		if (i % 15 == 0) {
+		if (i % 10 == 0) {
 			DrawSolutionInstance(this->problem, generationBest.back());
 			PlotGenerations(generationBest);
 

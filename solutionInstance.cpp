@@ -217,12 +217,14 @@ void SolutionInstance::GenerateInitialSolution2(Problem problem) {
 		vehicleList[i].endDepot = vehicleList[i].originDepot;
 	}
 	//PrintMap
+	/*
 	for (int i = 0; i < depotDistances.size(); i++){
 		std::cout << "CustomerNumber: " << i << std::endl;
 		for (map<float, Depot>::iterator it = depotDistances[i].begin(); it != depotDistances[i].end(); ++it) {
 			std::cout << it->first << " => " << it->second.depotId << '\n';
 		}
 	}
+	*/
 }
 
 void SolutionInstance::GenerateInitialSolution(Problem problem) {

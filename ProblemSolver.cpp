@@ -90,35 +90,6 @@ vector<SolutionInstance> ProblemSolver::Crossover(vector<SolutionInstance> paren
 	return children;
 }
 
-SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
-	int i, randomVehicleNumber, N;
-	float randomScore;
-	vector<SolutionInstance> mutatedChildren;
-	Depot tempDepot;
-	
-	for (i = 0; i < instance.vehicleList.size(); i++) {
-		randomScore = float(rand()) / float(RAND_MAX);
-		if ((randomScore > (1.0 - this->crossoverProbability)) && instance.vehicleList[i].route.size() != 0) {
-			do {
-				randomVehicleNumber = rand() % instance.vehicleList.size();
-			} while (instance.vehicleList[randomVehicleNumber].route.size() == 0);
-			if (instance.vehicleList[i].route.size() < instance.vehicleList[randomVehicleNumber].route.size()) {
-				N = rand() % instance.vehicleList[i].route.size();
-			}
-			else {
-					N = rand() % instance.vehicleList[randomVehicleNumber].route.size();
-			}
-			swapRouteSectionsAtIndexN(instance.vehicleList[i].route, instance.vehicleList[randomVehicleNumber].route, N);
-			tempDepot = instance.vehicleList[i].endDepot;
-			instance.vehicleList[i].endDepot = instance.vehicleList[randomVehicleNumber].endDepot;
-			instance.vehicleList[randomVehicleNumber].endDepot = tempDepot;
-			//Recalculate fittness
-			instance.vehicleList[i].RecalculateRouteDistance();
-			instance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
-		}
-	}
-	return instance;
-}
 
 void ProblemSolver::swapRouteSectionsAtIndexN(vector<Customer>& route1, vector<Customer>& route2, int N){
 	int i;
@@ -397,6 +368,37 @@ void ProblemSolver::DrawSolutions(vector<SolutionInstance> solutions) {
 }
 
 
+/*
+SolutionInstance ProblemSolver::IndividualCrossover(SolutionInstance instance) {
+	int i, randomVehicleNumber, N;
+	float randomScore;
+	vector<SolutionInstance> mutatedChildren;
+	Depot tempDepot;
+
+	for (i = 0; i < instance.vehicleList.size(); i++) {
+		randomScore = float(rand()) / float(RAND_MAX);
+		if ((randomScore > (1.0 - this->crossoverProbability)) && instance.vehicleList[i].route.size() != 0) {
+			do {
+				randomVehicleNumber = rand() % instance.vehicleList.size();
+			} while (instance.vehicleList[randomVehicleNumber].route.size() == 0);
+			if (instance.vehicleList[i].route.size() < instance.vehicleList[randomVehicleNumber].route.size()) {
+				N = rand() % instance.vehicleList[i].route.size();
+			}
+			else {
+					N = rand() % instance.vehicleList[randomVehicleNumber].route.size();
+			}
+			swapRouteSectionsAtIndexN(instance.vehicleList[i].route, instance.vehicleList[randomVehicleNumber].route, N);
+			tempDepot = instance.vehicleList[i].endDepot;
+			instance.vehicleList[i].endDepot = instance.vehicleList[randomVehicleNumber].endDepot;
+			instance.vehicleList[randomVehicleNumber].endDepot = tempDepot;
+			//Recalculate fittness
+			instance.vehicleList[i].RecalculateRouteDistance();
+			instance.vehicleList[randomVehicleNumber].RecalculateRouteDistance();
+		}
+	}
+	return instance;
+}
+*/
 
 //Icludes solution for weighting the parents based off of 
 /*vector<SolutionInstance> ProblemSolver::Replicate(vector<SolutionInstance> winners, int populationSize) {
