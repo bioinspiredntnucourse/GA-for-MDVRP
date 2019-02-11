@@ -54,7 +54,8 @@ def main():
     #PLOT PATHS
     paths = getPaths(solutionlines, depotsCoords, customersCoords)
     for path in paths:
-        plt.plot([x[0] for x in path], [x[1] for x in path])
+        if len(path) > 2:
+            plt.plot([x[0] for x in path], [x[1] for x in path])
 
     #PRINT STUFF
     print("fitness:", fitness)
