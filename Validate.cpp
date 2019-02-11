@@ -21,9 +21,15 @@ void ValidateInstances(Problem p, vector<SolutionInstance> insts) {
 		for (int j = 0; j < inst.vehicleList.size(); j++) {
 			Vehicle v = inst.vehicleList[j];
 
-			//check that vehicles have valid 
+			//check that vehicles have valid load
 			if (v.load > v.capacity) {
 				cout << error << "vehicle load more than capacity. load: " << v.load << " capacity: " << v.capacity << endl;
+			}
+
+			//check that vehicles do not exceed max range
+			v.RecalculateRouteDistance();
+			if (v.routeRange > v.maxRouteRange) {
+				cout << error << "vehicle exeeded max range" << endl;
 			}
 
 			for (int k = 0; k < v.route.size(); k++) {
